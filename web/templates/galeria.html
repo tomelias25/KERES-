@@ -1,0 +1,21 @@
+{% extends 'base.html' %}
+
+{% block contenido %}
+
+<h1>Galería de Cultivos</h1>
+
+<div class="row">
+
+{% for cultivo in cultivos %}
+
+<div class="col-md-3 mb-4">
+
+<img src="{{ cultivo.imagen.url }}" class="img-fluid rounded">
+
+</div>
+
+{% endfor %}
+
+</div>
+
+{% endblock %}

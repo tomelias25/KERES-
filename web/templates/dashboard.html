@@ -1,0 +1,29 @@
+{% extends 'base.html' %}
+
+{% block contenido %}
+
+<h1>Dashboard</h1>
+
+<div class="row">
+
+<div class="col-md-6">
+
+<div class="card bg-success text-white p-4">
+<h3>Total Cultivos</h3>
+<h1>{{ total_cultivos }}</h1>
+</div>
+
+</div>
+
+<div class="col-md-6">
+
+<div class="card bg-primary text-white p-4">
+<h3>Total Suelos</h3>
+<h1>{{ total_suelos }}</h1>
+</div>
+
+</div>
+
+</div>
+
+{% endblock %}

@@ -1,0 +1,71 @@
+{% extends 'base.html' %}
+
+{% block contenido %}
+
+<h1 class="mb-4">Cultivos</h1>
+
+<form method="GET" class="mb-4">
+
+<div class="input-group">
+
+<input type="text" name="buscar" class="form-control" placeholder="Buscar cultivo...">
+
+<button class="btn btn-success">
+Buscar
+</button>
+
+</div>
+
+</form>
+
+
+<form method="GET" class="mb-4">
+
+<select name="suelo" class="form-select">
+
+<option value="">Filtrar por suelo</option>
+
+{% for suelo in suelos %}
+
+<option value="{{ suelo.id }}">
+{{ suelo.nombre }}
+</option>
+
+{% endfor %}
+
+</select>
+
+<button class="btn btn-primary mt-2">
+Filtrar
+</button>
+
+</form>
+
+
+<div class="row">
+
+{% for cultivo in cultivos %}
+
+<div class="col-md-4 mb-4">
+
+<div class="card shadow">
+
+<img src="{{ cultivo.imagen.url }}" class="card-img-top" style="height:200px; object-fit:cover;">
+
+<div class="card-body">
+
+<h5 class="card-title">{{ cultivo.nombre }}</h5>
+
+<p class="card-text">{{ cultivo.descripcion }}</p>
+
+</div>
+
+</div>
+
+</div>
+
+{% endfor %}
+
+</div>
+
+{% endblock %}
