@@ -2,10 +2,131 @@
 
 {% block contenido %}
 
-<h1>Bienvenido a Keres</h1>
+<!-- HERO -->
+<section class="hero text-white">
+    <div class="container-fluid px-5 text-start">
 
-<p>
-Aplicación web para información sobre cultivos, tipos de suelo y producción agrícola.
+        <h1 class="display-3 fw-bold">
+    Lleva tu producción agrícola al siguiente nivel
+</h1>
+
+<p class="lead mb-4">
+    Analiza cultivos, suelos y mejora tu rendimiento con información confiable
 </p>
+
+<a href="/cultivos" class="btn btn-success me-2">
+    Explorar Cultivos
+</a>
+
+<a href="/dashboard" class="btn btn-outline-light">
+    Ver Dashboard
+</a>
+
+    </div>
+</section>
+
+<div class="col-md-3" data-aos="fade-up"></div>
+
+<!-- SERVICIOS -->
+<section class="container-fluid seccion-gris text-center mt-5 py-5">
+    <h2>Servicios más importantes</h2>
+
+    <div class="row mt-4">
+
+        <div class="col-md-3">
+            <div class="card shadow p-3">
+                <i class="fas fa-seedling fa-2x mb-2 text-success"></i>
+                <h5>Cultivos</h5>
+                <p>Información sobre diferentes cultivos</p>
+            </div>
+        </div>
+
+        <div class="col-md-3">
+            <div class="card shadow p-3">
+                <i class="fas fa-mountain fa-2x mb-2 text-success"></i>
+                <h5>Suelos</h5>
+                <p>Tipos de suelo y características</p>
+            </div>
+        </div>
+
+        <div class="col-md-3">
+            <div class="card shadow p-3">
+                <i class="fas fa-chart-line fa-2x mb-2 text-success"></i>
+                <h5>Producción</h5>
+                <p>Datos de rendimiento agrícola</p>
+            </div>
+        </div>
+
+        <div class="col-md-3">
+            <div class="card shadow p-3">
+                <i class="fas fa-image fa-2x mb-2 text-success"></i>
+                <h5>Galería</h5>
+                <p>Imágenes de cultivos y procesos</p>
+            </div>
+        </div>
+
+    </div>
+</section>
+
+<!-- INFO -->
+<section class="container-fluid px-5 mt-5">
+    <h3 class="text-center">Todo lo que necesitas para mejorar tu producción</h3>
+
+    <div class="row mt-4">
+
+        <div class="col-md-6">
+            ✔ Tipos de suelo en Colombia <br>
+            ✔ Consejos agrícolas
+        </div>
+
+        <div class="col-md-6">
+            ✔ Mejores cultivos por región <br>
+            ✔ Técnicas de cultivo
+        </div>
+
+    </div>
+</section>
+
+<!-- GALERÍA -->
+<section class="container-fluid px-5 mt-5 text-center">
+    <h3>Explora nuestra galería</h3>
+
+    <div class="row mt-4">
+
+        {% for cultivo in cultivos %}
+        <div class="col-md-3 mb-3">
+            <div class="card shadow">
+
+                {% if cultivo.imagen %}
+                <img src="{{ cultivo.imagen.url }}" class="card-img-top" style="height:150px; object-fit:cover;">
+                {% endif %}
+
+                <div class="card-body">
+                    {{ cultivo.nombre }}
+                </div>
+
+            </div>
+        </div>
+        {% endfor %}
+
+    </div>
+</section>
+
+<!-- CTA FINAL -->
+<section class="cta text-white text-center">
+
+    <div class="contenido-cta">
+        <h3>Empieza a mejorar tu producción hoy</h3>
+        <a href="/dashboard" class="btn btn-light mt-3">
+            Ir al Dashboard
+        </a>
+    </div>
+
+</section>
+
+<!-- FOOTER -->
+<footer class="bg-dark text-white text-center p-3 mt-5">
+    <p>© 2026 Keres - Todos los derechos reservados</p>
+</footer>
 
 {% endblock %}

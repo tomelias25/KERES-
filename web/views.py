@@ -3,7 +3,11 @@ from .models import Cultivo, Suelo
 
 
 def inicio(request):
-    return render(request, 'inicio.html')
+    cultivos = Cultivo.objects.all()
+
+    return render(request, 'inicio.html', {
+        'cultivos': cultivos
+    })
 
 
 def cultivos(request):
@@ -18,7 +22,7 @@ def cultivos(request):
 
     if suelo_id:
         cultivos = cultivos.filter(suelo_id=suelo_id)
-
+        
     suelos = Suelo.objects.all()
 
     return render(request, "cultivos.html", {
