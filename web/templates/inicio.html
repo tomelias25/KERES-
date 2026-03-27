@@ -3,116 +3,118 @@
 {% block contenido %}
 
 <!-- HERO -->
-<section class="hero text-white">
-    <div class="container-fluid px-5 text-start">
+<section class="hero">
+
+    <div class="container-fluid">
 
         <h1 class="display-3 fw-bold">
-    Lleva tu producción agrícola al siguiente nivel
-</h1>
+            Lleva tu producción agrícola al siguiente nivel
+        </h1>
 
-<p class="lead mb-4">
-    Analiza cultivos, suelos y mejora tu rendimiento con información confiable
-</p>
+        <p class="lead mb-4">
+            Analiza cultivos, suelos y mejora tu rendimiento
+        </p>
 
-<a href="/cultivos" class="btn btn-success me-2">
-    Explorar Cultivos
-</a>
+        <a href="/cultivos" class="btn btn-success me-2">
+            Explorar Cultivos
+        </a>
 
-<a href="/dashboard" class="btn btn-outline-light">
-    Ver Dashboard
-</a>
+        <a href="/dashboard" class="btn btn-outline-light">
+            Ver Dashboard
+        </a>
 
     </div>
+
 </section>
 
-<div class="col-md-3" data-aos="fade-up"></div>
-
 <!-- SERVICIOS -->
-<section class="container-fluid seccion-gris text-center mt-5 py-5">
-    <h2>Servicios más importantes</h2>
+<section class="seccion-gris text-center">
+    <div class="container-fluid">
+        <h2>Servicios más importantes</h2>
 
-    <div class="row mt-4">
+        <div class="row mt-4">
 
-        <div class="col-md-3">
-            <div class="card shadow p-3">
-                <i class="fas fa-seedling fa-2x mb-2 text-success"></i>
-                <h5>Cultivos</h5>
-                <p>Información sobre diferentes cultivos</p>
+            <div class="col-md-3" data-aos="fade-up">
+                <div class="card shadow">
+                    <i class="fas fa-seedling fa-2x mb-2 text-success"></i>
+                    <h5>Cultivos</h5>
+                    <p>Información sobre diferentes cultivos</p>
+                </div>
             </div>
-        </div>
 
-        <div class="col-md-3">
-            <div class="card shadow p-3">
-                <i class="fas fa-mountain fa-2x mb-2 text-success"></i>
-                <h5>Suelos</h5>
-                <p>Tipos de suelo y características</p>
+            <div class="col-md-3" data-aos="fade-up" data-aos-delay="100">
+                <div class="card shadow">
+                    <i class="fas fa-mountain fa-2x mb-2 text-success"></i>
+                    <h5>Suelos</h5>
+                    <p>Tipos de suelo y características</p>
+                </div>
             </div>
-        </div>
 
-        <div class="col-md-3">
-            <div class="card shadow p-3">
-                <i class="fas fa-chart-line fa-2x mb-2 text-success"></i>
-                <h5>Producción</h5>
-                <p>Datos de rendimiento agrícola</p>
+            <div class="col-md-3" data-aos="fade-up" data-aos-delay="200">
+                <div class="card shadow">
+                    <i class="fas fa-chart-line fa-2x mb-2 text-success"></i>
+                    <h5>Producción</h5>
+                    <p>Datos de rendimiento agrícola</p>
+                </div>
             </div>
-        </div>
 
-        <div class="col-md-3">
-            <div class="card shadow p-3">
-                <i class="fas fa-image fa-2x mb-2 text-success"></i>
-                <h5>Galería</h5>
-                <p>Imágenes de cultivos y procesos</p>
+            <div class="col-md-3" data-aos="fade-up" data-aos-delay="300">
+                <div class="card shadow">
+                    <i class="fas fa-image fa-2x mb-2 text-success"></i>
+                    <h5>Galería</h5>
+                    <p>Imágenes de cultivos y procesos</p>
+                </div>
             </div>
-        </div>
 
+        </div>
     </div>
 </section>
 
 <!-- INFO -->
-<section class="container-fluid px-5 mt-5">
-    <h3 class="text-center">Todo lo que necesitas para mejorar tu producción</h3>
+<section>
+    <div class="container-fluid">
+        <h3 class="text-center">Todo lo que necesitas para mejorar tu producción</h3>
 
-    <div class="row mt-4">
+        <div class="row mt-4">
+            <div class="col-md-6">
+                ✔ Tipos de suelo en Colombia <br>
+                ✔ Consejos agrícolas
+            </div>
 
-        <div class="col-md-6">
-            ✔ Tipos de suelo en Colombia <br>
-            ✔ Consejos agrícolas
+            <div class="col-md-6">
+                ✔ Mejores cultivos por región <br>
+                ✔ Técnicas de cultivo
+            </div>
         </div>
-
-        <div class="col-md-6">
-            ✔ Mejores cultivos por región <br>
-            ✔ Técnicas de cultivo
-        </div>
-
     </div>
 </section>
 
 <!-- GALERÍA -->
-<section class="container-fluid px-5 mt-5 text-center">
-    <h3>Explora nuestra galería</h3>
+<section class="text-center">
+    <div class="container-fluid">
+        <h3>Explora nuestra galería</h3>
 
-    <div class="row mt-4">
+        <div class="row mt-4">
+            {% for cultivo in cultivos %}
+            <div class="col-md-3 mb-3" data-aos="zoom-in">
+                <div class="card shadow">
 
-        {% for cultivo in cultivos %}
-        <div class="col-md-3 mb-3">
-            <div class="card shadow">
+                    {% if cultivo.imagen %}
+                    <img src="{{ cultivo.imagen.url }}" class="card-img-top" style="height:150px; object-fit:cover;">
+                    {% endif %}
 
-                {% if cultivo.imagen %}
-                <img src="{{ cultivo.imagen.url }}" class="card-img-top" style="height:150px; object-fit:cover;">
-                {% endif %}
+                    <div class="card-body">
+                        {{ cultivo.nombre }}
+                    </div>
 
-                <div class="card-body">
-                    {{ cultivo.nombre }}
                 </div>
-
             </div>
+            {% endfor %}
         </div>
-        {% endfor %}
-
     </div>
 </section>
 
-<!-- CTA FINAL -->
+<!-- CTA -->
 <section class="cta text-white text-center">
 
     <div class="contenido-cta">
@@ -125,7 +127,7 @@
 </section>
 
 <!-- FOOTER -->
-<footer class="bg-dark text-white text-center p-3 mt-5">
+<footer class="bg-dark text-white text-center p-3">
     <p>© 2026 Keres - Todos los derechos reservados</p>
 </footer>
 
