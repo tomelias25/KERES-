@@ -16,8 +16,8 @@
 
 <body>
 
-<nav class="navbar navbar-expand-lg navbar-dark fixed-top navbar-custom">
-    <div class="container-fluid px-5"> 
+<nav class="navbar navbar-expand-lg navbar-dark">
+    <div class="container-fluid px-5">
 
         <a class="navbar-brand" href="/">🌱 Keres</a>
 
@@ -26,7 +26,6 @@
         </button>
 
         <div class="collapse navbar-collapse" id="menu">
-
             <ul class="navbar-nav ms-auto">
 
                 <li class="nav-item">
@@ -50,31 +49,16 @@
                 </li>
 
             </ul>
-
         </div>
     </div>
 </nav>
 
-<!-- 🔥 ELIMINAMOS EL CONTAINER -->
 {% block contenido %}
 {% endblock %}
 
-<script>
-window.addEventListener("scroll", function() {
-    const navbar = document.querySelector(".navbar");
-
-    if (window.scrollY > 50) {
-        navbar.classList.add("navbar-scrolled");
-        navbar.classList.remove("navbar-transparent");
-    } else {
-        navbar.classList.add("navbar-transparent");
-        navbar.classList.remove("navbar-scrolled");
-    }
-});
-</script>
+<script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.bundle.min.js"></script>
 
 <script src="https://unpkg.com/aos@2.3.4/dist/aos.js"></script>
-
 <script>
 AOS.init();
 </script>
