@@ -22,8 +22,8 @@
     background-attachment: fixed;
     display: flex;
     align-items: center;
-    color: rgb(255, 255, 255);
-    position: relative;
+    color: white;
+    padding-top: 80px;
 }
 
 /* CONTENIDO HERO */
