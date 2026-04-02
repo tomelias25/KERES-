@@ -4,14 +4,10 @@ from .models import Cultivo, Suelo
 
 def inicio(request):
     cultivos = Cultivo.objects.all()
-
-    return render(request, 'inicio.html', {
-        'cultivos': cultivos
-    })
+    return render(request, 'inicio.html', {'cultivos': cultivos})
 
 
 def cultivos(request):
-
     busqueda = request.GET.get("buscar")
     suelo_id = request.GET.get("suelo")
 
@@ -22,7 +18,7 @@ def cultivos(request):
 
     if suelo_id:
         cultivos = cultivos.filter(suelo_id=suelo_id)
-        
+
     suelos = Suelo.objects.all()
 
     return render(request, "cultivos.html", {
@@ -33,27 +29,16 @@ def cultivos(request):
 
 def suelos(request):
     suelos = Suelo.objects.all()
-
-    return render(request, "suelos.html", {
-        "suelos": suelos
-    })
+    return render(request, "suelos.html", {"suelos": suelos})
 
 
 def galeria(request):
-
     cultivos = Cultivo.objects.all()
-
-    return render(request, "galeria.html", {
-        "cultivos": cultivos
-    })
+    return render(request, "galeria.html", {"cultivos": cultivos})
 
 
 def dashboard(request):
-
-    total_cultivos = Cultivo.objects.count()
-    total_suelos = Suelo.objects.count()
-
     return render(request, "dashboard.html", {
-        "total_cultivos": total_cultivos,
-        "total_suelos": total_suelos
+        "total_cultivos": Cultivo.objects.count(),
+        "total_suelos": Suelo.objects.count()
     })

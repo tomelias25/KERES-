@@ -1,21 +1,49 @@
 {% extends 'base.html' %}
-
+{% load static %}
 {% block contenido %}
 
-<h1>Galería de Cultivos</h1>
+<section class="container-fluid mt-5 text-center">
+
+<h2>Galería</h2>
 
 <div class="row">
 
 {% for cultivo in cultivos %}
-
 <div class="col-md-3 mb-4">
 
-<img src="{{ cultivo.imagen.url }}" class="img-fluid rounded">
+<div class="card galeria-card">
 
+{% if cultivo.imagen %}
+<img src="{{ cultivo.imagen.url }}" class="img-galeria"
+onclick="abrirImagen('{{ cultivo.imagen.url }}')">
+{% endif %}
+
+<div class="card-body">
+<h6>{{ cultivo.nombre }}</h6>
 </div>
 
+</div>
+</div>
 {% endfor %}
 
 </div>
+</section>
+
+<div class="modal fade" id="imagenModal">
+  <div class="modal-dialog modal-lg modal-dialog-centered">
+    <div class="modal-content bg-dark">
+      <div class="modal-body text-center">
+        <img id="imagenGrande" class="img-fluid">
+      </div>
+    </div>
+  </div>
+</div>
+
+<script>
+function abrirImagen(src) {
+    document.getElementById("imagenGrande").src = src;
+    new bootstrap.Modal(document.getElementById('imagenModal')).show();
+}
+</script>
 
 {% endblock %}

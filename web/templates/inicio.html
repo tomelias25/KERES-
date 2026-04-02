@@ -1,134 +1,362 @@
 {% extends 'base.html' %}
+{% load static %}
 
 {% block contenido %}
 
+<!-- FRANJA CTA -->
+<section class="cta-section">
+    <div class="container text-center">
+
+        <div class="cta-icon mb-3">
+            <svg viewBox="0 0 64 64" fill="none" xmlns="http://www.w3.org/2000/svg" width="60" height="60">
+                <path d="M32 8C32 8 16 20 16 34a16 16 0 0 0 32 0C48 20 32 8 32 8z" stroke="white" stroke-width="2.5" stroke-linejoin="round"/>
+                <path d="M32 20v28M24 30c2-4 8-6 8-6M40 36c-2-4-8-6-8-6" stroke="white" stroke-width="2.5" stroke-linecap="round"/>
+            </svg>
+        </div>
+
+        <h2 class="cta-titulo">¿Listo para mejorar tu producción?</h2>
+        <p class="cta-sub">Únete a más de 1.200 agricultores que ya optimizan sus cultivos con nuestra plataforma.</p>
+
+        <div class="cta-btns mt-4">
+            <a href="/cultivos/" class="btn cta-btn-primary me-3">
+                🌱 Comenzar ahora
+            </a>
+            <a href="/dashboard/" class="btn cta-btn-secondary">
+                📊 Ver Dashboard
+            </a>
+        </div>
+
+    </div>
+</section>
+
 <!-- HERO -->
 <section class="hero">
+    <div class="container text-white">
 
-    <div class="container-fluid">
+        <!-- BADGE ANIMADO -->
+        <div class="hero-badge mb-3">
+            <span class="badge-dot"></span>
+            🌿 Plataforma agrícola colombiana
+        </div>
 
-        <h1 class="display-3 fw-bold">
-    Lleva tu producción agrícola al siguiente nivel
-</h1>
+        <!-- TÍTULO -->
+        <h1 class="display-3 fw-bold hero-titulo">
+            Lleva tu producción <br>
+            <span class="hero-highlight">agrícola</span> al siguiente nivel
+        </h1>
 
-        <p class="lead mb-4">
-            Analiza cultivos, suelos y mejora tu rendimiento
+        <!-- SUBTÍTULO -->
+        <p class="lead mb-4 hero-sub">
+            Analiza cultivos, suelos y clima para tomar mejores decisiones.<br>
+            Todo en un solo lugar, gratis y en español.
         </p>
 
-        <a href="/cultivos" class="btn btn-success me-2">
-            Explorar Cultivos
-        </a>
+        <!-- BOTONES -->
+        <div class="hero-btns mb-5">
+            <a href="/cultivos/" class="btn btn-success btn-hero me-3">
+                🌱 Explorar Cultivos
+            </a>
+            <a href="/dashboard/" class="btn btn-outline-light btn-hero">
+                📊 Ver Dashboard
+            </a>
+        </div>
 
-        <a href="/dashboard" class="btn btn-outline-light">
-            Ver Dashboard
-        </a>
+        <!-- DATOS DESTACADOS -->
+        <div class="hero-stats">
+            <div class="hero-stat">
+                <strong>+500</strong>
+                <span>Cultivos</span>
+            </div>
+            <div class="hero-stat-divider"></div>
+            <div class="hero-stat">
+                <strong>32</strong>
+                <span>Departamentos</span>
+            </div>
+            <div class="hero-stat-divider"></div>
+            <div class="hero-stat">
+                <strong>100%</strong>
+                <span>Gratis</span>
+            </div>
+        </div>
 
     </div>
 
-</section>
-
-<!-- SERVICIOS -->
-<section class="seccion-gris text-center">
-    <div class="container-fluid">
-        <h2>Servicios más importantes</h2>
-
-        <div class="row mt-4">
-
-            <div class="col-md-3" data-aos="fade-up">
-                <div class="card shadow">
-                    <i class="fas fa-seedling fa-2x mb-2 text-success"></i>
-                    <h5>Cultivos</h5>
-                    <p>Información sobre diferentes cultivos</p>
-                </div>
-            </div>
-
-            <div class="col-md-3" data-aos="fade-up" data-aos-delay="100">
-                <div class="card shadow">
-                    <i class="fas fa-mountain fa-2x mb-2 text-success"></i>
-                    <h5>Suelos</h5>
-                    <p>Tipos de suelo y características</p>
-                </div>
-            </div>
-
-            <div class="col-md-3" data-aos="fade-up" data-aos-delay="200">
-                <div class="card shadow">
-                    <i class="fas fa-chart-line fa-2x mb-2 text-success"></i>
-                    <h5>Producción</h5>
-                    <p>Datos de rendimiento agrícola</p>
-                </div>
-            </div>
-
-            <div class="col-md-3" data-aos="fade-up" data-aos-delay="300">
-                <div class="card shadow">
-                    <i class="fas fa-image fa-2x mb-2 text-success"></i>
-                    <h5>Galería</h5>
-                    <p>Imágenes de cultivos y procesos</p>
-                </div>
-            </div>
-
+    <!-- SCROLL INDICATOR -->
+    <div class="scroll-indicator">
+        <span>Descubre más</span>
+        <div class="scroll-arrow">
+            <svg viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
+                <path d="M12 5v14M5 12l7 7 7-7" stroke="white" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/>
+            </svg>
         </div>
     </div>
 </section>
 
-<!-- INFO -->
-<section>
-    <div class="container-fluid">
-        <h3 class="text-center">Todo lo que necesitas para mejorar tu producción</h3>
-
-        <div class="row mt-4">
-            <div class="col-md-6">
+<!-- SECCIÓN INFO -->
+<section class="info-box">
+    <div class="container text-center">
+        <h3 class="mb-4">Todo lo que necesitas para mejorar tu producción</h3>
+        <div class="row justify-content-center">
+            <div class="col-md-4 text-start">
                 ✔ Tipos de suelo en Colombia <br>
                 ✔ Consejos agrícolas
             </div>
+            <div class="col-md-4 text-start">
+                ✔ Mejores cultivos por región <br>
+                ✔ Técnicas de cultivo
+            </div>
+        </div>
+    </div>
+</section>
 
-        <div class="col-md-6">
-            ✔ Mejores cultivos por región <br>
-            ✔ Técnicas de cultivo
+<!-- ¿CÓMO FUNCIONA? -->
+<section class="como-funciona fade-up">
+    <div class="container">
+
+        <div class="text-center mb-5">
+            <h2 class="cf-titulo">¿Cómo funciona?</h2>
+            <p class="cf-sub">En 3 simples pasos empieza a optimizar tu producción agrícola</p>
         </div>
 
+        <div class="row g-4 justify-content-center">
+
+            <div class="col-md-4">
+                <div class="cf-card">
+                    <div class="cf-numero">01</div>
+                    <div class="cf-icono">
+                        <svg viewBox="0 0 64 64" fill="none" xmlns="http://www.w3.org/2000/svg">
+                            <circle cx="32" cy="22" r="10" stroke="#2e7d32" stroke-width="2.5"/>
+                            <path d="M12 54c0-11 9-18 20-18s20 7 20 18" stroke="#2e7d32" stroke-width="2.5" stroke-linecap="round"/>
+                        </svg>
+                    </div>
+                    <h5 class="cf-nombre">Regístrate</h5>
+                    <p class="cf-desc">Crea tu cuenta gratis en segundos y accede a todas las herramientas de la plataforma.</p>
+                </div>
+            </div>
+
+            <div class="col-md-4">
+                <div class="cf-card cf-card-destacado">
+                    <div class="cf-numero">02</div>
+                    <div class="cf-icono">
+                        <svg viewBox="0 0 64 64" fill="none" xmlns="http://www.w3.org/2000/svg">
+                            <path d="M32 8C32 8 16 20 16 34a16 16 0 0 0 32 0C48 20 32 8 32 8z" stroke="white" stroke-width="2.5" stroke-linejoin="round"/>
+                            <path d="M32 20v28M24 30c2-4 8-6 8-6M40 36c-2-4-8-6-8-6" stroke="white" stroke-width="2.5" stroke-linecap="round"/>
+                        </svg>
+                    </div>
+                    <h5 class="cf-nombre cf-nombre-blanco">Selecciona tu cultivo</h5>
+                    <p class="cf-desc cf-desc-blanco">Elige entre más de 500 cultivos y obtén información detallada sobre suelos, clima y técnicas.</p>
+                </div>
+            </div>
+
+            <div class="col-md-4">
+                <div class="cf-card">
+                    <div class="cf-numero">03</div>
+                    <div class="cf-icono">
+                        <svg viewBox="0 0 64 64" fill="none" xmlns="http://www.w3.org/2000/svg">
+                            <rect x="8" y="8" width="48" height="48" rx="4" stroke="#2e7d32" stroke-width="2.5"/>
+                            <path d="M16 44l10-12 8 8 8-14 6 6" stroke="#2e7d32" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"/>
+                        </svg>
+                    </div>
+                    <h5 class="cf-nombre">Analiza y mejora</h5>
+                    <p class="cf-desc">Visualiza datos en tu dashboard y toma decisiones inteligentes para aumentar tu rendimiento.</p>
+                </div>
+            </div>
+
+        </div>
+    </div>
+</section>
+
+<!-- CARDS INFORMATIVAS -->
+<section class="cards-info-section">
+    <div class="container">
+        <div class="row justify-content-center g-4">
+
+            <div class="col-md-3">
+                <div class="info-card text-center">
+                    <div class="info-card-icon">
+                        <img src="{% static 'img/suelo.png' %}" alt="Suelos">
+                    </div>
+                    <h5>Suelos</h5>
+                    <p>Conoce los tipos de suelo ideales para cada cultivo en Colombia.</p>
+                    <a href="/suelos/" class="btn btn-sm btn-success mt-2">Ver más</a>
+                </div>
+            </div>
+
+            <div class="col-md-3">
+                <div class="info-card text-center">
+                    <div class="info-card-icon">
+                        <img src="{% static 'img/cultivos.png' %}" alt="Cultivos">
+                    </div>
+                    <h5>Cultivos</h5>
+                    <p>Explora los mejores cultivos según tu región y temporada.</p>
+                    <a href="/cultivos/" class="btn btn-sm btn-success mt-2">Ver más</a>
+                </div>
+            </div>
+
+            <div class="col-md-3">
+                <div class="info-card text-center">
+                    <div class="info-card-icon">
+                        <img src="{% static 'img/clima.png' %}" alt="Clima">
+                    </div>
+                    <h5>Clima</h5>
+                    <p>Consulta las condiciones climáticas para planificar tu siembra.</p>
+                    <a href="/clima/" class="btn btn-sm btn-success mt-2">Ver más</a>
+                </div>
+            </div>
+
+            <div class="col-md-3">
+                <div class="info-card text-center">
+                    <div class="info-card-icon">
+                        <img src="{% static 'img/dashboard.png' %}" alt="Dashboard">
+                    </div>
+                    <h5>Dashboard</h5>
+                    <p>Visualiza el rendimiento de tu producción en tiempo real.</p>
+                    <a href="/dashboard/" class="btn btn-sm btn-success mt-2">Ver más</a>
+                </div>
+            </div>
+
+        </div>
+    </div>
+</section>
+
+
+<!-- CONTADOR DE ESTADÍSTICAS -->
+<section class="stats-section">
+    <div class="container">
+        <div class="row text-center g-4">
+
+            <div class="col-md-3">
+                <div class="stat-card">
+                    <div class="stat-icon">
+                        <svg viewBox="0 0 64 64" fill="none" xmlns="http://www.w3.org/2000/svg">
+                            <path d="M32 8C32 8 16 20 16 34a16 16 0 0 0 32 0C48 20 32 8 32 8z" stroke="white" stroke-width="2.5" stroke-linejoin="round"/>
+                            <path d="M32 20v28M24 30c2-4 8-6 8-6M40 36c-2-4-8-6-8-6" stroke="white" stroke-width="2.5" stroke-linecap="round"/>
+                        </svg>
+                    </div>
+                    <h2 class="stat-number" data-target="500">0</h2>
+                    <p class="stat-label">Cultivos registrados</p>
+                </div>
+            </div>
+
+            <div class="col-md-3">
+                <div class="stat-card">
+                    <div class="stat-icon">
+                        <svg viewBox="0 0 64 64" fill="none" xmlns="http://www.w3.org/2000/svg">
+                            <rect x="8" y="8" width="48" height="48" rx="4" stroke="white" stroke-width="2.5"/>
+                            <path d="M8 20h48M20 8v12M44 8v12" stroke="white" stroke-width="2.5" stroke-linecap="round"/>
+                            <circle cx="22" cy="36" r="3" fill="white"/>
+                            <circle cx="32" cy="36" r="3" fill="white"/>
+                            <circle cx="42" cy="36" r="3" fill="white"/>
+                            <circle cx="22" cy="46" r="3" fill="white"/>
+                            <circle cx="32" cy="46" r="3" fill="white"/>
+                        </svg>
+                    </div>
+                    <h2 class="stat-number" data-target="32">0</h2>
+                    <p class="stat-label">Departamentos cubiertos</p>
+                </div>
+            </div>
+
+            <div class="col-md-3">
+                <div class="stat-card">
+                    <div class="stat-icon">
+                        <svg viewBox="0 0 64 64" fill="none" xmlns="http://www.w3.org/2000/svg">
+                            <circle cx="32" cy="22" r="10" stroke="white" stroke-width="2.5"/>
+                            <path d="M12 54c0-11 9-18 20-18s20 7 20 18" stroke="white" stroke-width="2.5" stroke-linecap="round"/>
+                        </svg>
+                    </div>
+                    <h2 class="stat-number" data-target="1200">0</h2>
+                    <p class="stat-label">Agricultores activos</p>
+                </div>
+            </div>
+
+            <div class="col-md-3">
+                <div class="stat-card">
+                    <div class="stat-icon">
+                        <svg viewBox="0 0 64 64" fill="none" xmlns="http://www.w3.org/2000/svg">
+                            <rect x="8" y="8" width="48" height="48" rx="4" stroke="white" stroke-width="2.5"/>
+                            <path d="M16 44l10-12 8 8 8-14 6 6" stroke="white" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"/>
+                        </svg>
+                    </div>
+                    <h2 class="stat-number" data-target="98">0</h2>
+                    <p class="stat-label">% de satisfacción</p>
+                </div>
+            </div>
+
+        </div>
     </div>
 </section>
 
 <!-- GALERÍA -->
-<section class="text-center">
+<section class="overlap-section fade-up">
     <div class="container-fluid">
-        <h3>Explora nuestra galería</h3>
+        <div class="galeria-wrapper text-center">
 
-        <div class="row mt-4">
-            {% for cultivo in cultivos %}
-            <div class="col-md-3 mb-3" data-aos="zoom-in">
-                <div class="card shadow">
+            <h3 class="mb-4">Explora nuestra galería</h3>
 
-                    {% if cultivo.imagen %}
-                    <img src="{{ cultivo.imagen.url }}" class="card-img-top" style="height:150px; object-fit:cover;">
-                    {% endif %}
+            <div class="row">
+                {% for cultivo in cultivos %}
 
-                    <div class="card-body">
-                        {{ cultivo.nombre }}
+                <div class="col-md-3 mb-4">             <!-- ✅ solo UN col-md-3 -->
+                    <div class="card galeria-card w-100">
+
+                        {% if cultivo.imagen %}
+                        <div class="img-container">      <!-- ✅ contenedor con altura fija -->
+                            <img src="{{ cultivo.imagen.url }}"
+                                 class="img-galeria"
+                                 onclick="abrirImagen('{{ cultivo.imagen.url }}')">
+                        </div>
+                        {% endif %}
+
+                        <div class="card-body">
+                            <h6 class="mb-0">{{ cultivo.nombre }}</h6>
+                        </div>
+
                     </div>
-
                 </div>
+
+                {% endfor %}
             </div>
-            {% endfor %}
+
         </div>
     </div>
 </section>
 
-<!-- CTA -->
-<section class="cta text-white text-center">
+<script>
+// CONTADOR ANIMADO
+function animarContadores() {
+    const contadores = document.querySelectorAll('.stat-number');
 
-    <div class="contenido-cta">
-        <h3>Empieza a mejorar tu producción hoy</h3>
-        <a href="/dashboard" class="btn btn-light mt-3">
-            Ir al Dashboard
-        </a>
-    </div>
+    contadores.forEach(contador => {
+        const target = parseInt(contador.getAttribute('data-target'));
+        const duracion = 2000;
+        const incremento = target / (duracion / 16);
+        let actual = 0;
 
-</section>
+        const timer = setInterval(() => {
+            actual += incremento;
+            if (actual >= target) {
+                contador.textContent = target.toLocaleString() + (target === 98 ? '%' : '+');
+                clearInterval(timer);
+            } else {
+                contador.textContent = Math.floor(actual).toLocaleString();
+            }
+        }, 16);
+    });
+}
 
-<!-- FOOTER -->
-<footer class="bg-dark text-white text-center p-3">
-    <p>© 2026 Keres - Todos los derechos reservados</p>
-</footer>
+const statsSection = document.querySelector('.stats-section');
+let yaAnimo = false;
+
+const observer = new IntersectionObserver((entries) => {
+    entries.forEach(entry => {
+        if (entry.isIntersecting && !yaAnimo) {
+            yaAnimo = true;
+            animarContadores();
+        }
+    });
+}, { threshold: 0.3 });
+
+if (statsSection) observer.observe(statsSection);
+</script>
 
 {% endblock %}

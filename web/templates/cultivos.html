@@ -1,70 +1,45 @@
 {% extends 'base.html' %}
-
 {% block contenido %}
 
-<h1 class="mb-4">Cultivos</h1>
+<div class="container mt-5">
 
-<form method="GET" class="mb-4">
+<h1>Cultivos</h1>
 
-<div class="input-group">
-
-<input type="text" name="buscar" class="form-control" placeholder="Buscar cultivo...">
-
-<button class="btn btn-success">
-Buscar
-</button>
-
-</div>
-
+<form method="GET" class="mb-3">
+<input type="text" name="buscar" class="form-control" placeholder="Buscar...">
 </form>
 
-
 <form method="GET" class="mb-4">
-
 <select name="suelo" class="form-select">
-
 <option value="">Filtrar por suelo</option>
-
 {% for suelo in suelos %}
-
-<option value="{{ suelo.id }}">
-{{ suelo.nombre }}
-</option>
-
+<option value="{{ suelo.id }}">{{ suelo.nombre }}</option>
 {% endfor %}
-
 </select>
-
-<button class="btn btn-primary mt-2">
-Filtrar
-</button>
-
+<button class="btn btn-primary mt-2">Filtrar</button>
 </form>
-
 
 <div class="row">
 
 {% for cultivo in cultivos %}
-
 <div class="col-md-4 mb-4">
 
-<div class="card shadow">
+<div class="card">
 
+{% if cultivo.imagen %}
 <img src="{{ cultivo.imagen.url }}" class="card-img-top" style="height:200px; object-fit:cover;">
+{% endif %}
 
 <div class="card-body">
-
-<h5 class="card-title">{{ cultivo.nombre }}</h5>
-
-<p class="card-text">{{ cultivo.descripcion }}</p>
-
+<h5>{{ cultivo.nombre }}</h5>
+<p>{{ cultivo.descripcion }}</p>
 </div>
 
 </div>
-
 </div>
-
 {% endfor %}
+
+</div>
 
 </div>
 
