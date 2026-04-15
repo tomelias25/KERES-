@@ -1,8 +1,108 @@
 {% extends 'base.html' %}
-
 {% block contenido %}
 
-<h1>Cultivos</h1>
-<p>Aquí se mostrará información sobre los cultivos.</p>
+<!-- HERO SUELOS -->
+<section class="hero hero-cultivos">
+    <div class="container text-white">
+
+        <div class="hero-badge mb-3">
+            <span class="badge-dot"></span>
+            🌍 Tipos de suelo en Colombia
+        </div>
+
+        <h1 class="display-3 fw-bold hero-titulo">
+            Conoce nuestros <br>
+            <span class="hero-highlight">suelos</span>
+        </h1>
+
+        <p class="lead mb-4 hero-sub">
+            Descubre las características de cada tipo de suelo<br>
+            y qué cultivos se adaptan mejor a cada uno.
+        </p>
+
+    </div>
+
+    <div class="scroll-indicator">
+        <span>Ver suelos</span>
+        <div class="scroll-arrow">
+            <svg viewBox="0 0 24 24" fill="none">
+                <path d="M12 5v14M5 12l7 7 7-7" stroke="white" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/>
+            </svg>
+        </div>
+    </div>
+</section>
+
+<!-- CONTENIDO -->
+<div class="cultivos-container">
+    <div class="container">
+
+        <div class="row g-4">
+            {% for suelo in suelos %}
+            <div class="col-md-6 mb-4">
+                <div class="suelo-card">
+
+                    <!-- IMAGEN -->
+                    {% if suelo.imagen %}
+                    <div class="suelo-img-wrap">
+                        <img src="{{ suelo.imagen.url }}" alt="{{ suelo.nombre }}">
+                        <div class="suelo-tipo-badge">{{ suelo.get_tipo_display }}</div>
+                    </div>
+                    {% endif %}
+
+                    <!-- BODY -->
+                    <div class="suelo-body">
+
+                        <h4 class="suelo-nombre">{{ suelo.nombre }}</h4>
+                        <p class="suelo-desc">{{ suelo.descripcion|truncatechars:120 }}</p>
+
+                        <!-- FICHAS -->
+                        <div class="suelo-fichas">
+
+                            {% if suelo.ph %}
+                            <div class="suelo-ficha">
+                                <span class="suelo-ficha-label">pH</span>
+                                <span class="suelo-ficha-valor">{{ suelo.get_ph_display }}</span>
+                            </div>
+                            {% endif %}
+
+                            {% if suelo.drenaje %}
+                            <div class="suelo-ficha">
+                                <span class="suelo-ficha-label">Drenaje</span>
+                                <span class="suelo-ficha-valor">{{ suelo.drenaje }}</span>
+                            </div>
+                            {% endif %}
+
+                            {% if suelo.tipo %}
+                            <div class="suelo-ficha">
+                                <span class="suelo-ficha-label">Tipo</span>
+                                <span class="suelo-ficha-valor">{{ suelo.get_tipo_display }}</span>
+                            </div>
+                            {% endif %}
+
+                        </div>
+
+                        {% if suelo.cultivos_recomendados %}
+                        <div class="suelo-cultivos">
+                            <span class="suelo-cultivos-label">🌱 Cultivos recomendados</span>
+                            <p class="suelo-cultivos-valor">{{ suelo.cultivos_recomendados }}</p>
+                        </div>
+                        {% endif %}
+
+                        <a href="{% url 'detalle_suelo' suelo.id %}" class="cultivo-btn mt-3 d-inline-block">
+                            Ver detalle →
+                        </a>
+
+                    </div>
+                </div>
+            </div>
+            {% empty %}
+            <div class="col-12 text-center py-5">
+                <p style="color:#999; font-size:1.1rem;">No hay suelos registrados aún.</p>
+            </div>
+            {% endfor %}
+        </div>
+
+    </div>
+</div>
 
 {% endblock %}

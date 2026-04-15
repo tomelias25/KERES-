@@ -220,7 +220,7 @@ body {
 
 /* ===== CARDS INFORMATIVAS ===== */
 .cards-info-section {
-    padding: 60px 0 70px 0;
+    padding: 20px 0 70px 0;  /* ✅ era 60px arriba, ahora 20px */
     position: relative;
     z-index: 4;
 }
@@ -830,5 +830,1340 @@ body {
         flex-direction: column;
         gap: 10px;
         text-align: center;
+    }
+}
+
+/* ===== MAPA DE COLOMBIA ===== */
+.mapa-section {
+    padding: 80px 0;
+    background: #0d1f0d;
+}
+
+.mapa-titulo {
+    font-size: 2.2rem;
+    font-weight: 800;
+    color: #ffffff;
+    margin-bottom: 10px;
+}
+
+.mapa-sub {
+    font-size: 1rem;
+    color: rgba(255, 255, 255, 0.6);
+}
+
+.mapa-wrapper {
+    display: flex;
+    align-items: flex-start;
+    justify-content: center;
+    gap: 30px;
+    padding: 0 40px;
+}
+
+#mapa-colombia {
+    width: 60%;
+    height: 600px;
+    border-radius: 20px;
+    overflow: hidden;
+    border: 1px solid rgba(255,255,255,0.1);
+}
+
+/* PANEL LATERAL */
+.mapa-panel {
+    width: 300px;
+    min-height: 400px;
+    background: rgba(255, 255, 255, 0.05);
+    border: 1px solid rgba(255, 255, 255, 0.1);
+    border-radius: 20px;
+    padding: 30px 25px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    flex-direction: column;
+}
+
+.mapa-panel-placeholder {
+    text-align: center;
+    color: rgba(255, 255, 255, 0.3);
+    font-size: 0.9rem;
+}
+
+.mapa-panel-placeholder p {
+    margin-top: 15px;
+}
+
+/* INFO PANEL */
+.mapa-panel-info {
+    width: 100%;
+}
+
+.mapa-panel-info h4 {
+    color: #ffffff;
+    font-weight: 800;
+    font-size: 1.3rem;
+    margin-bottom: 4px;
+}
+
+.panel-region {
+    color: #81c784;
+    font-size: 0.85rem;
+    margin-bottom: 20px;
+    text-transform: uppercase;
+    letter-spacing: 0.05em;
+}
+
+/* BARRA DE CULTIVO */
+.cultivo-barra {
+    margin-bottom: 14px;
+}
+
+.cultivo-barra-header {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    margin-bottom: 5px;
+}
+
+.cultivo-nombre {
+    font-size: 0.9rem;
+    color: rgba(255, 255, 255, 0.85);
+    font-weight: 500;
+}
+
+.cultivo-porcentaje {
+    font-size: 0.85rem;
+    color: #81c784;
+    font-weight: 700;
+}
+
+.cultivo-barra-bg {
+    height: 6px;
+    background: rgba(255, 255, 255, 0.1);
+    border-radius: 10px;
+    overflow: hidden;
+}
+
+.cultivo-barra-fill {
+    height: 100%;
+    background: linear-gradient(90deg, #2e7d32, #81c784);
+    border-radius: 10px;
+    transition: width 0.8s ease;
+}
+
+/* RESPONSIVE */
+@media (max-width: 768px) {
+    .mapa-wrapper {
+        flex-direction: column;
+        align-items: center;
+        padding: 0 15px;
+    }
+
+    #mapa-colombia {
+        width: 100%;
+        height: 400px;
+    }
+
+    .mapa-panel {
+        width: 100%;
+    }
+}
+
+/* ===== HERO CULTIVOS ===== */
+.hero-cultivos {
+    background: linear-gradient(rgba(0,0,0,0.55), rgba(0,0,0,0.75)),
+                url("../img/fondo.jpg") no-repeat center center/cover;
+    background-attachment: fixed;
+}
+
+/* CONTENEDOR CULTIVOS */
+.cultivos-container {
+    background: #f4f4f4;
+    border-radius: 25px 25px 0 0;
+    margin-top: -60px;
+    position: relative;
+    z-index: 5;
+    padding: 50px 0;
+}
+
+/* FILTROS */
+.cultivos-input,
+.cultivos-select {
+    border: 2px solid #e0e0e0;
+    border-radius: 12px;
+    padding: 12px 18px;
+    font-size: 0.95rem;
+    background: #ffffff;
+    transition: all 0.3s ease;
+    height: 50px;
+}
+
+.cultivos-input:focus,
+.cultivos-select:focus {
+    border-color: #2e7d32;
+    box-shadow: 0 0 0 3px rgba(46,125,50,0.1);
+    outline: none;
+}
+
+.cultivos-btn-filtrar {
+    background: linear-gradient(135deg, #1b5e20, #2e7d32);
+    color: #ffffff;
+    font-weight: 600;
+    padding: 12px 28px;
+    border-radius: 12px;
+    height: 50px;
+    transition: all 0.3s ease;
+    border: none;
+}
+
+.cultivos-btn-filtrar:hover {
+    transform: translateY(-2px);
+    box-shadow: 0 8px 20px rgba(46,125,50,0.3);
+    color: #ffffff;
+}
+
+/* CARD CULTIVO */
+.cultivo-card {
+    background: #ffffff;
+    border-radius: 20px;
+    overflow: hidden;
+    box-shadow: 0 8px 25px rgba(0,0,0,0.07);
+    transition: all 0.4s ease;
+    height: 100%;
+    display: flex;
+    flex-direction: column;
+}
+
+.cultivo-card:hover {
+    transform: translateY(-8px);
+    box-shadow: 0 20px 40px rgba(0,0,0,0.15);
+}
+
+/* IMAGEN */
+.cultivo-img-wrap {
+    position: relative;
+    height: 220px;
+    overflow: hidden;
+}
+
+.cultivo-img-wrap img {
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+    transition: transform 0.6s ease;
+}
+
+.cultivo-card:hover .cultivo-img-wrap img {
+    transform: scale(1.08);
+}
+
+/* BADGE SUELO */
+.cultivo-badge-suelo {
+    position: absolute;
+    top: 14px;
+    left: 14px;
+    background: rgba(27, 94, 32, 0.9);
+    color: #ffffff;
+    font-size: 0.75rem;
+    font-weight: 600;
+    padding: 5px 12px;
+    border-radius: 50px;
+    backdrop-filter: blur(5px);
+}
+
+/* BODY */
+.cultivo-body {
+    padding: 20px;
+    display: flex;
+    flex-direction: column;
+    flex-grow: 1;
+}
+
+.cultivo-nombre {
+    font-size: 1.1rem;
+    font-weight: 700;
+    color: #1b5e20;
+    margin-bottom: 8px;
+}
+
+.cultivo-desc {
+    font-size: 0.88rem;
+    color: #666;
+    line-height: 1.6;
+    flex-grow: 1;
+    margin-bottom: 16px;
+}
+
+/* BOTÓN VER DETALLE */
+.cultivo-btn {
+    display: inline-block;
+    color: #2e7d32;
+    font-weight: 600;
+    font-size: 0.9rem;
+    text-decoration: none;
+    transition: all 0.3s ease;
+}
+
+.cultivo-btn:hover {
+    color: #1b5e20;
+    letter-spacing: 0.03em;
+}
+
+/* ===== DETALLE CULTIVO ===== */
+.detalle-volver {
+    color: rgba(255,255,255,0.7);
+    text-decoration: none;
+    font-size: 0.9rem;
+    transition: color 0.3s ease;
+}
+
+.detalle-volver:hover {
+    color: #ffffff;
+}
+
+.detalle-img-wrap {
+    border-radius: 20px;
+    overflow: hidden;
+    height: 400px;
+    box-shadow: 0 20px 50px rgba(0,0,0,0.15);
+}
+
+.detalle-img-wrap img {
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+}
+
+.detalle-info {
+    padding: 10px 0;
+}
+
+.detalle-suelo-badge {
+    display: inline-block;
+    background: #e8f5e9;
+    color: #2e7d32;
+    font-size: 0.8rem;
+    font-weight: 600;
+    padding: 6px 14px;
+    border-radius: 50px;
+    margin-bottom: 16px;
+}
+
+.detalle-titulo {
+    font-size: 2rem;
+    font-weight: 800;
+    color: #1b5e20;
+    margin-bottom: 16px;
+}
+
+.detalle-desc {
+    font-size: 1rem;
+    color: #555;
+    line-height: 1.8;
+    margin-bottom: 24px;
+}
+
+.detalle-meta {
+    border-top: 1px solid #e0e0e0;
+    padding-top: 20px;
+}
+
+.detalle-meta-item {
+    display: flex;
+    align-items: center;
+    gap: 10px;
+    font-size: 0.95rem;
+    color: #444;
+    margin-bottom: 10px;
+}
+
+.detalle-relacionados-titulo {
+    font-size: 1.4rem;
+    font-weight: 700;
+    color: #1b5e20;
+    margin-bottom: 24px;
+    padding-bottom: 12px;
+    border-bottom: 2px solid #e8f5e9;
+}
+
+/* ===== FICHAS DE DATOS ===== */
+.detalle-fichas {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 12px;
+    margin-top: 20px;
+}
+
+.detalle-ficha {
+    display: flex;
+    align-items: center;
+    gap: 12px;
+    background: #f8fdf8;
+    border: 1px solid #e8f5e9;
+    border-radius: 12px;
+    padding: 14px;
+    transition: all 0.3s ease;
+}
+
+.detalle-ficha:hover {
+    background: #e8f5e9;
+    transform: translateY(-2px);
+}
+
+.detalle-ficha-icono {
+    width: 36px;
+    height: 36px;
+    background: #ffffff;
+    border-radius: 10px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    flex-shrink: 0;
+    box-shadow: 0 2px 8px rgba(0,0,0,0.06);
+}
+
+.detalle-ficha-icono svg {
+    width: 18px;
+    height: 18px;
+}
+
+.detalle-ficha-label {
+    display: block;
+    font-size: 0.75rem;
+    color: #999;
+    text-transform: uppercase;
+    letter-spacing: 0.05em;
+    margin-bottom: 2px;
+}
+
+.detalle-ficha-valor {
+    display: block;
+    font-size: 0.95rem;
+    font-weight: 600;
+    color: #1b5e20;
+}
+
+@media (max-width: 768px) {
+    .detalle-fichas {
+        grid-template-columns: 1fr;
+    }
+}
+
+/* ===== SUELOS ===== */
+.suelo-card {
+    background: #ffffff;
+    border-radius: 20px;
+    overflow: hidden;
+    box-shadow: 0 8px 25px rgba(0,0,0,0.07);
+    transition: all 0.4s ease;
+    height: 100%;
+    display: flex;
+    flex-direction: column;
+}
+
+.suelo-card:hover {
+    transform: translateY(-8px);
+    box-shadow: 0 20px 40px rgba(0,0,0,0.15);
+}
+
+/* IMAGEN */
+.suelo-img-wrap {
+    position: relative;
+    height: 200px;
+    overflow: hidden;
+}
+
+.suelo-img-wrap img {
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+    transition: transform 0.6s ease;
+}
+
+.suelo-card:hover .suelo-img-wrap img {
+    transform: scale(1.08);
+}
+
+.suelo-tipo-badge {
+    position: absolute;
+    top: 14px;
+    left: 14px;
+    background: rgba(27, 94, 32, 0.9);
+    color: #ffffff;
+    font-size: 0.75rem;
+    font-weight: 600;
+    padding: 5px 12px;
+    border-radius: 50px;
+    backdrop-filter: blur(5px);
+}
+
+/* BODY */
+.suelo-body {
+    padding: 24px;
+    display: flex;
+    flex-direction: column;
+    flex-grow: 1;
+}
+
+.suelo-nombre {
+    font-size: 1.2rem;
+    font-weight: 700;
+    color: #1b5e20;
+    margin-bottom: 8px;
+}
+
+.suelo-desc {
+    font-size: 0.88rem;
+    color: #666;
+    line-height: 1.6;
+    margin-bottom: 16px;
+}
+
+/* FICHAS */
+.suelo-fichas {
+    display: flex;
+    gap: 10px;
+    flex-wrap: wrap;
+    margin-bottom: 16px;
+}
+
+.suelo-ficha {
+    background: #f8fdf8;
+    border: 1px solid #e8f5e9;
+    border-radius: 10px;
+    padding: 8px 14px;
+    display: flex;
+    flex-direction: column;
+}
+
+.suelo-ficha-label {
+    font-size: 0.7rem;
+    color: #999;
+    text-transform: uppercase;
+    letter-spacing: 0.05em;
+}
+
+.suelo-ficha-valor {
+    font-size: 0.88rem;
+    font-weight: 600;
+    color: #1b5e20;
+}
+
+/* CULTIVOS RECOMENDADOS */
+.suelo-cultivos {
+    background: #f0f7f0;
+    border-radius: 12px;
+    padding: 14px;
+    margin-bottom: 8px;
+}
+
+.suelo-cultivos-label {
+    display: block;
+    font-size: 0.78rem;
+    font-weight: 600;
+    color: #2e7d32;
+    margin-bottom: 4px;
+}
+
+.suelo-cultivos-valor {
+    font-size: 0.85rem;
+    color: #444;
+    margin: 0;
+    line-height: 1.5;
+}
+
+/* ===== DASHBOARD ===== */
+.dash-stat-card {
+    background: #ffffff;
+    border-radius: 20px;
+    padding: 28px 20px;
+    text-align: center;
+    box-shadow: 0 8px 25px rgba(0,0,0,0.07);
+    transition: all 0.3s ease;
+}
+
+.dash-stat-card:hover {
+    transform: translateY(-5px);
+    box-shadow: 0 15px 35px rgba(0,0,0,0.12);
+}
+
+.dash-stat-icono {
+    font-size: 2rem;
+    margin-bottom: 10px;
+}
+
+.dash-stat-numero {
+    font-size: 2.5rem;
+    font-weight: 800;
+    color: #1b5e20;
+    line-height: 1;
+    margin-bottom: 6px;
+}
+
+.dash-stat-label {
+    font-size: 0.85rem;
+    color: #888;
+}
+
+.dash-card {
+    background: #ffffff;
+    border-radius: 20px;
+    padding: 28px;
+    box-shadow: 0 8px 25px rgba(0,0,0,0.07);
+}
+
+.dash-card-titulo {
+    font-size: 1rem;
+    font-weight: 700;
+    color: #1b5e20;
+    margin-bottom: 20px;
+    padding-bottom: 12px;
+    border-bottom: 2px solid #e8f5e9;
+}
+
+/* ===== RESPONSIVE MÓVIL ===== */
+@media (max-width: 768px) {
+
+    /* HERO */
+    .hero {
+        padding-top: 100px;
+        padding-bottom: 60px;
+        height: auto;
+        min-height: 100vh;
+    }
+
+    .hero-titulo {
+        font-size: 2rem;
+    }
+
+    .hero-sub {
+        font-size: 1rem;
+    }
+
+    .hero-stats {
+        flex-direction: column;
+        gap: 12px;
+        padding: 16px 20px;
+        width: 100%;
+    }
+
+    .hero-stat-divider {
+        width: 80%;
+        height: 1px;
+    }
+
+    .hero-btns {
+        display: flex;
+        flex-direction: column;
+        gap: 12px;
+        width: 100%;
+    }
+
+    .btn-hero {
+        width: 100%;
+        text-align: center;
+    }
+
+    /* MAPA */
+    .mapa-wrapper {
+        flex-direction: column;
+        padding: 0 15px;
+    }
+
+    #mapa-colombia {
+        width: 100%;
+        height: 350px;
+    }
+
+    .mapa-panel {
+        width: 100%;
+        min-height: auto;
+    }
+
+    .mapa-titulo {
+        font-size: 1.6rem;
+    }
+
+    /* CARDS INFORMATIVAS */
+    .cards-info-section .row {
+        gap: 16px;
+    }
+
+    .info-card {
+        padding: 20px 15px;
+    }
+
+    /* STATS */
+    .stats-section {
+        padding: 40px 20px;
+    }
+
+    .col-md-3:not(:last-child) .stat-card {
+        border-right: none;
+        border-bottom: 1px solid rgba(255,255,255,0.2);
+        padding-bottom: 20px;
+    }
+
+    .stat-number {
+        font-size: 2rem;
+    }
+
+    /* GALERÍA */
+    .galeria-wrapper {
+        padding: 20px 15px;
+        border-radius: 15px;
+    }
+
+    .img-container {
+        height: 180px;
+    }
+
+    /* COMO FUNCIONA */
+    .cf-card {
+        margin-bottom: 16px;
+    }
+
+    .cf-card-destacado {
+        transform: translateY(0);
+    }
+
+    /* CTA */
+    .cta-titulo {
+        font-size: 1.6rem;
+    }
+
+    .cta-btns {
+        display: flex;
+        flex-direction: column;
+        gap: 12px;
+        align-items: center;
+    }
+
+    .cta-btn-primary,
+    .cta-btn-secondary {
+        width: 100%;
+        text-align: center;
+    }
+
+    /* CULTIVOS */
+    .cultivos-container {
+        border-radius: 15px 15px 0 0;
+        padding: 30px 15px;
+    }
+
+    .cultivos-filtros .d-flex {
+        flex-direction: column;
+    }
+
+    .cultivos-input,
+    .cultivos-select,
+    .cultivos-btn-filtrar {
+        width: 100%;
+    }
+
+    /* DETALLE */
+    .detalle-img-wrap {
+        height: 250px;
+    }
+
+    .detalle-fichas {
+        grid-template-columns: 1fr;
+    }
+
+    .detalle-titulo {
+        font-size: 1.5rem;
+    }
+
+    /* SUELOS */
+    .suelo-fichas {
+        flex-direction: column;
+    }
+
+    /* DASHBOARD */
+    .dash-stat-numero {
+        font-size: 2rem;
+    }
+
+    .dash-card {
+        padding: 20px 15px;
+    }
+
+    /* FOOTER */
+    .footer {
+        padding: 40px 0 20px 0;
+    }
+
+    .footer-bottom {
+        flex-direction: column;
+        gap: 10px;
+        text-align: center;
+    }
+
+    .footer-redes {
+        justify-content: center;
+    }
+
+    /* OVERLAP */
+    .overlap-section {
+        margin-top: -40px;
+    }
+
+    /* INFO BOX */
+    .info-box {
+    background: #f4f4f4;
+    margin-top: -40px;    /* ✅ era -80px, reduce el overlap */
+    padding: 30px 0;      /* ✅ era 60px, menos espacio arriba y abajo */
+    border-radius: 20px 20px 0 0;
+    position: relative;
+    z-index: 2;
+}
+}
+
+/* TABLET */
+@media (max-width: 992px) and (min-width: 769px) {
+
+    .hero-titulo {
+        font-size: 2.5rem;
+    }
+
+    #mapa-colombia {
+        height: 400px;
+    }
+
+    .mapa-panel {
+        width: 250px;
+    }
+
+    .detalle-fichas {
+        grid-template-columns: 1fr;
+    }
+}
+
+/* ===== HOVER EFFECTS PRO ===== */
+
+/* BRILLO EN CARDS INFORMATIVAS */
+.info-card {
+    position: relative;
+    overflow: hidden;
+}
+
+.info-card::before {
+    content: "";
+    position: absolute;
+    top: -50%;
+    left: -50%;
+    width: 60px;
+    height: 200%;
+    background: rgba(255, 255, 255, 0.15);
+    transform: rotate(25deg) translateX(-100px);
+    transition: all 0.6s ease;
+}
+
+.info-card:hover::before {
+    transform: rotate(25deg) translateX(400px);
+}
+
+/* BRILLO EN CARDS CULTIVOS */
+.cultivo-card {
+    position: relative;
+    overflow: hidden;
+}
+
+.cultivo-card::before {
+    content: "";
+    position: absolute;
+    top: -50%;
+    left: -50%;
+    width: 60px;
+    height: 200%;
+    background: rgba(255, 255, 255, 0.1);
+    transform: rotate(25deg) translateX(-100px);
+    transition: all 0.6s ease;
+    z-index: 1;
+}
+
+.cultivo-card:hover::before {
+    transform: rotate(25deg) translateX(400px);
+}
+
+/* BRILLO EN CARDS SUELOS */
+.suelo-card {
+    position: relative;
+    overflow: hidden;
+}
+
+.suelo-card::before {
+    content: "";
+    position: absolute;
+    top: -50%;
+    left: -50%;
+    width: 60px;
+    height: 200%;
+    background: rgba(255, 255, 255, 0.1);
+    transform: rotate(25deg) translateX(-100px);
+    transition: all 0.6s ease;
+    z-index: 1;
+}
+
+.suelo-card:hover::before {
+    transform: rotate(25deg) translateX(400px);
+}
+
+/* HOVER EN CARDS ¿CÓMO FUNCIONA? */
+.cf-card::after {
+    content: "";
+    position: absolute;
+    bottom: 0;
+    left: 0;
+    width: 0%;
+    height: 3px;
+    background: linear-gradient(90deg, #1b5e20, #81c784);
+    transition: width 0.4s ease;
+    border-radius: 0 0 20px 20px;
+}
+
+.cf-card:hover::after {
+    width: 100%;
+}
+
+/* HOVER EN GALERÍA */
+.galeria-card {
+    position: relative;
+}
+
+.galeria-card::after {
+    content: "";
+    position: absolute;
+    bottom: 0;
+    left: 0;
+    width: 0%;
+    height: 3px;
+    background: linear-gradient(90deg, #1b5e20, #81c784);
+    transition: width 0.4s ease;
+}
+
+.galeria-card:hover::after {
+    width: 100%;
+}
+
+/* HOVER EN DASH CARDS */
+.dash-stat-card {
+    position: relative;
+    overflow: hidden;
+}
+
+.dash-stat-card::before {
+    content: "";
+    position: absolute;
+    top: -50%;
+    left: -50%;
+    width: 60px;
+    height: 200%;
+    background: rgba(46, 125, 50, 0.08);
+    transform: rotate(25deg) translateX(-100px);
+    transition: all 0.6s ease;
+}
+
+.dash-stat-card:hover::before {
+    transform: rotate(25deg) translateX(400px);
+}
+
+/* HOVER EN BOTONES */
+.btn-success,
+.btn-hero {
+    position: relative;
+    overflow: hidden;
+}
+
+.btn-success::after,
+.btn-hero::after {
+    content: "";
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    width: 0;
+    height: 0;
+    background: rgba(255, 255, 255, 0.2);
+    border-radius: 50%;
+    transform: translate(-50%, -50%);
+    transition: width 0.5s ease, height 0.5s ease;
+}
+
+.btn-success:hover::after,
+.btn-hero:hover::after {
+    width: 300px;
+    height: 300px;
+}
+
+/* ===== GALERÍA MEJORADA ===== */
+.galeria-filtros input {
+    max-width: 500px;
+    margin: 0 auto;
+    display: block;
+}
+
+.galeria-contador {
+    font-size: 0.9rem;
+    color: #888;
+}
+
+/* CARD */
+.gal-card {
+    background: #ffffff;
+    border-radius: 20px;
+    overflow: hidden;
+    box-shadow: 0 8px 25px rgba(0,0,0,0.07);
+    transition: all 0.4s ease;
+    cursor: pointer;
+    height: 100%;
+    display: flex;
+    flex-direction: column;
+    position: relative;
+}
+
+.gal-card:hover {
+    transform: translateY(-8px);
+    box-shadow: 0 20px 40px rgba(0,0,0,0.15);
+}
+
+/* IMAGEN */
+.gal-img-wrap {
+    position: relative;
+    height: 220px;
+    overflow: hidden;
+}
+
+.gal-img-wrap img {
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+    transition: transform 0.6s ease;
+}
+
+.gal-card:hover .gal-img-wrap img {
+    transform: scale(1.08);
+}
+
+/* OVERLAY */
+.gal-overlay {
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    background: rgba(27, 94, 32, 0.7);
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    opacity: 0;
+    transition: all 0.4s ease;
+}
+
+.gal-card:hover .gal-overlay {
+    opacity: 1;
+}
+
+.gal-overlay-icono {
+    transform: scale(0.5);
+    transition: transform 0.4s ease;
+}
+
+.gal-card:hover .gal-overlay-icono {
+    transform: scale(1);
+}
+
+.gal-overlay-texto {
+    color: white;
+    font-size: 0.9rem;
+    font-weight: 600;
+    margin: 8px 0 0 0;
+}
+
+/* BODY */
+.gal-body {
+    padding: 16px;
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+}
+
+.gal-nombre {
+    font-size: 0.95rem;
+    font-weight: 700;
+    color: #1b5e20;
+    margin: 0;
+}
+
+.gal-suelo {
+    font-size: 0.75rem;
+    background: #e8f5e9;
+    color: #2e7d32;
+    padding: 4px 10px;
+    border-radius: 50px;
+    font-weight: 600;
+}
+
+/* ===== LIGHTBOX ===== */
+.lightbox-overlay {
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    background: rgba(0, 0, 0, 0.95);
+    z-index: 9998;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    opacity: 0;
+    pointer-events: none;
+    transition: opacity 0.3s ease;
+}
+
+.lightbox-overlay.activo {
+    opacity: 1;
+    pointer-events: all;
+}
+
+.lightbox-contenido {
+    position: relative;
+    max-width: 900px;
+    width: 90%;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    gap: 16px;
+}
+
+.lightbox-cerrar {
+    position: absolute;
+    top: -50px;
+    right: 0;
+    background: rgba(255,255,255,0.1);
+    border: none;
+    border-radius: 50%;
+    width: 40px;
+    height: 40px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    cursor: pointer;
+    transition: background 0.3s ease;
+}
+
+.lightbox-cerrar:hover {
+    background: rgba(255,255,255,0.2);
+}
+
+.lightbox-img-wrap {
+    width: 100%;
+    max-height: 70vh;
+    overflow: hidden;
+    border-radius: 16px;
+}
+
+.lightbox-img-wrap img {
+    width: 100%;
+    height: 100%;
+    object-fit: contain;
+    transition: opacity 0.3s ease;
+}
+
+.lightbox-info {
+    text-align: center;
+}
+
+.lightbox-info h4 {
+    color: #ffffff;
+    font-weight: 700;
+    margin-bottom: 4px;
+}
+
+.lightbox-info span {
+    color: #81c784;
+    font-size: 0.85rem;
+}
+
+.lightbox-nav {
+    display: flex;
+    align-items: center;
+    gap: 20px;
+}
+
+.lightbox-nav-btn {
+    background: rgba(255,255,255,0.1);
+    border: none;
+    border-radius: 50%;
+    width: 44px;
+    height: 44px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    cursor: pointer;
+    transition: all 0.3s ease;
+}
+
+.lightbox-nav-btn:hover {
+    background: #2e7d32;
+    transform: scale(1.1);
+}
+
+/* RESPONSIVE */
+@media (max-width: 768px) {
+    .gal-img-wrap {
+        height: 180px;
+    }
+
+    .lightbox-contenido {
+        width: 95%;
+    }
+}
+
+/* ===== GLASSMORPHISM ===== */
+.info-glass {
+    background: linear-gradient(135deg, #1b5e20, #2e7d32, #1b5e20);
+    padding: 70px 0;
+    position: relative;
+    z-index: 2;
+    margin-top: -40px;
+    border-radius: 20px 20px 0 0;
+    overflow: hidden;
+}
+
+/* CÍRCULOS DECORATIVOS FONDO */
+.info-glass::before {
+    content: "";
+    position: absolute;
+    width: 400px;
+    height: 400px;
+    background: rgba(255,255,255,0.05);
+    border-radius: 50%;
+    top: -100px;
+    left: -100px;
+}
+
+.info-glass::after {
+    content: "";
+    position: absolute;
+    width: 300px;
+    height: 300px;
+    background: rgba(255,255,255,0.05);
+    border-radius: 50%;
+    bottom: -80px;
+    right: -60px;
+}
+
+.glass-titulo {
+    font-size: 1.8rem;
+    font-weight: 800;
+    color: #ffffff;
+}
+
+/* CARD GLASS */
+.glass-card {
+    background: rgba(255, 255, 255, 0.1);
+    backdrop-filter: blur(12px);
+    -webkit-backdrop-filter: blur(12px);
+    border: 1px solid rgba(255, 255, 255, 0.2);
+    border-radius: 24px;
+    padding: 36px 24px;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    text-align: center;
+    transition: all 0.4s ease;
+    cursor: pointer;
+    position: relative;
+    overflow: hidden;
+}
+
+.glass-card::before {
+    content: "";
+    position: absolute;
+    top: 0;
+    left: -100%;
+    width: 60px;
+    height: 100%;
+    background: rgba(255,255,255,0.1);
+    transform: skewX(-20deg);
+    transition: left 0.6s ease;
+}
+
+.glass-card:hover::before {
+    left: 150%;
+}
+
+.glass-card:hover {
+    background: rgba(255, 255, 255, 0.18);
+    border-color: rgba(255, 255, 255, 0.4);
+    transform: translateY(-8px);
+    box-shadow: 0 20px 40px rgba(0,0,0,0.2);
+}
+
+/* ÍCONO */
+.glass-icono {
+    width: 75px;
+    height: 75px;
+    border-radius: 20px;
+    background: rgba(255,255,255,0.15);
+    border: 1px solid rgba(255,255,255,0.25);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    margin-bottom: 20px;
+    transition: all 0.4s ease;
+}
+
+.glass-card:hover .glass-icono {
+    background: rgba(255,255,255,0.25);
+    transform: scale(1.1);
+}
+
+/* TEXTOS */
+.glass-titulo-card {
+    font-size: 1.15rem;
+    font-weight: 800;
+    color: #ffffff;
+    margin-bottom: 4px;
+}
+
+.glass-sub {
+    font-size: 0.85rem;
+    color: rgba(255,255,255,0.6);
+    margin-bottom: 12px;
+}
+
+.glass-desc {
+    font-size: 0.85rem;
+    color: rgba(255,255,255,0.8);
+    line-height: 1.6;
+    margin-bottom: 20px;
+    flex-grow: 1;
+}
+
+/* BOTÓN */
+.glass-btn {
+    background: rgba(255,255,255,0.15);
+    color: #ffffff;
+    font-weight: 700;
+    font-size: 0.88rem;
+    padding: 10px 24px;
+    border-radius: 50px;
+    text-decoration: none;
+    border: 1px solid rgba(255,255,255,0.3);
+    transition: all 0.3s ease;
+    display: inline-block;
+}
+
+.glass-btn:hover {
+    background: #ffffff;
+    color: #1b5e20;
+    border-color: #ffffff;
+}
+
+/* RESPONSIVE */
+@media (max-width: 768px) {
+    .info-glass {
+        padding: 40px 15px;
+        border-radius: 15px 15px 0 0;
     }
 }

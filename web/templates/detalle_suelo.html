@@ -1,0 +1,141 @@
+{% extends 'base.html' %}
+{% block contenido %}
+
+<!-- HERO DETALLE SUELO -->
+<section class="hero hero-cultivos">
+    <div class="container text-white">
+
+        <a href="/suelos/" class="detalle-volver mb-4 d-inline-flex align-items-center gap-2">
+            ← Volver a suelos
+        </a>
+
+        <div class="hero-badge mb-3">
+            <span class="badge-dot"></span>
+            🌍 {{ suelo.get_tipo_display }}
+        </div>
+
+        <h1 class="display-3 fw-bold hero-titulo">
+            {{ suelo.nombre }}
+        </h1>
+
+    </div>
+</section>
+
+<!-- CONTENIDO -->
+<div class="cultivos-container">
+    <div class="container">
+
+        <div class="row g-5">
+
+            <!-- IMAGEN -->
+            <div class="col-md-6">
+                <div class="detalle-img-wrap">
+                    {% if suelo.imagen %}
+                    <img src="{{ suelo.imagen.url }}" alt="{{ suelo.nombre }}">
+                    {% else %}
+                    <div style="width:100%; height:100%; background:#e8f5e9; display:flex; align-items:center; justify-content:center;">
+                        <span style="font-size:4rem;">🌍</span>
+                    </div>
+                    {% endif %}
+                </div>
+            </div>
+
+            <!-- INFO -->
+            <div class="col-md-6">
+                <div class="detalle-info">
+
+                    <span class="detalle-suelo-badge">{{ suelo.get_tipo_display }}</span>
+                    <h2 class="detalle-titulo">{{ suelo.nombre }}</h2>
+                    <p class="detalle-desc">{{ suelo.descripcion }}</p>
+
+                    <!-- FICHAS -->
+                    <div class="detalle-fichas">
+
+                        {% if suelo.tipo %}
+                        <div class="detalle-ficha">
+                            <div class="detalle-ficha-icono">
+                                <svg viewBox="0 0 24 24" fill="none">
+                                    <path d="M12 2C8 2 5 5 5 9c0 5 7 13 7 13s7-8 7-13c0-4-3-7-7-7z" stroke="#2e7d32" stroke-width="2"/>
+                                    <circle cx="12" cy="9" r="2.5" stroke="#2e7d32" stroke-width="2"/>
+                                </svg>
+                            </div>
+                            <div>
+                                <span class="detalle-ficha-label">Tipo</span>
+                                <span class="detalle-ficha-valor">{{ suelo.get_tipo_display }}</span>
+                            </div>
+                        </div>
+                        {% endif %}
+
+                        {% if suelo.ph %}
+                        <div class="detalle-ficha">
+                            <div class="detalle-ficha-icono">
+                                <svg viewBox="0 0 24 24" fill="none">
+                                    <circle cx="12" cy="12" r="9" stroke="#2e7d32" stroke-width="2"/>
+                                    <path d="M9 12h6M12 9v6" stroke="#2e7d32" stroke-width="2" stroke-linecap="round"/>
+                                </svg>
+                            </div>
+                            <div>
+                                <span class="detalle-ficha-label">pH</span>
+                                <span class="detalle-ficha-valor">{{ suelo.get_ph_display }}</span>
+                            </div>
+                        </div>
+                        {% endif %}
+
+                        {% if suelo.drenaje %}
+                        <div class="detalle-ficha">
+                            <div class="detalle-ficha-icono">
+                                <svg viewBox="0 0 24 24" fill="none">
+                                    <path d="M12 2v20M2 12h20" stroke="#2e7d32" stroke-width="2" stroke-linecap="round"/>
+                                </svg>
+                            </div>
+                            <div>
+                                <span class="detalle-ficha-label">Drenaje</span>
+                                <span class="detalle-ficha-valor">{{ suelo.drenaje }}</span>
+                            </div>
+                        </div>
+                        {% endif %}
+
+                    </div>
+
+                    {% if suelo.cultivos_recomendados %}
+                    <div class="suelo-cultivos mt-3">
+                        <span class="suelo-cultivos-label">🌱 Cultivos recomendados</span>
+                        <p class="suelo-cultivos-valor">{{ suelo.cultivos_recomendados }}</p>
+                    </div>
+                    {% endif %}
+
+                </div>
+            </div>
+
+        </div>
+
+        <!-- CULTIVOS DE ESTE SUELO -->
+        {% if cultivos %}
+        <div class="detalle-relacionados mt-5">
+            <h4 class="detalle-relacionados-titulo">Cultivos que crecen en este suelo</h4>
+            <div class="row">
+                {% for cultivo in cultivos %}
+                <div class="col-md-4 mb-4">
+                    <div class="cultivo-card">
+                        <div class="cultivo-img-wrap">
+                            {% if cultivo.imagen %}
+                            <img src="{{ cultivo.imagen.url }}" alt="{{ cultivo.nombre }}">
+                            {% endif %}
+                            <div class="cultivo-badge-suelo">{{ cultivo.suelo }}</div>
+                        </div>
+                        <div class="cultivo-body">
+                            <h5 class="cultivo-nombre">{{ cultivo.nombre }}</h5>
+                            <p class="cultivo-desc">{{ cultivo.descripcion|truncatechars:80 }}</p>
+                            <a href="{% url 'detalle_cultivo' cultivo.id %}" class="cultivo-btn">Ver detalle →</a>
+                        </div>
+                    </div>
+                </div>
+                {% endfor %}
+            </div>
+        </div>
+        {% endif %}
+
+    </div>
+</div>
+
+{% endblock %}

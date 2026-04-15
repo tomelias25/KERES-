@@ -10,10 +10,41 @@
 <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/css/bootstrap.min.css" rel="stylesheet">
 <link href="https://unpkg.com/aos@2.3.4/dist/aos.css" rel="stylesheet">
 <link rel="stylesheet" href="{% static 'css/style.css' %}">
+<link rel="stylesheet" href="https://unpkg.com/leaflet@1.9.4/dist/leaflet.css"/>
 
 </head>
 
+<style>
+.page-transition {
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100vh;
+    min-height: 100%;
+    background: #1b5e20;
+    z-index: 9999;
+    transform: scaleY(0);
+    transform-origin: top;
+    transition: transform 0.8s cubic-bezier(0.76, 0, 0.24, 1);
+    pointer-events: none;
+}
+
+.page-transition.saliendo {
+    transform: scaleY(1);
+    transform-origin: top;
+    pointer-events: all;
+}
+
+.page-transition.entrando {
+    transform: scaleY(0);
+    transform-origin: bottom;
+}
+</style>
+
 <body>
+
+    <div class="page-transition" id="page-transition"></div>
 
 <nav class="navbar navbar-expand-lg navbar-dark">
     <div class="container-fluid px-5">
@@ -30,7 +61,7 @@
                 <li class="nav-item"><a class="nav-link" href="/cultivos/">Cultivos</a></li>
                 <li class="nav-item"><a class="nav-link" href="/suelos/">Suelos</a></li>
                 <li class="nav-item"><a class="nav-link" href="/galeria/">Galería</a></li>
-                <li class="nav-item"><a class="nav-link" href="/dashboard/">Dashboard</a></li>
+                <li class="nav-item"><a class="nav-link" href="/productividad/">Productividad</a></li>
 
                 {% if user.is_authenticated %}
                     <li class="nav-item ms-3">
@@ -57,13 +88,12 @@
 {% block contenido %}
 {% endblock %}
 
-<!-- ✅ FOOTER -->
+<!-- FOOTER -->
 <footer class="footer">
     <div class="container">
 
         <div class="row g-5">
 
-            <!-- MARCA -->
             <div class="col-md-4">
                 <h4 class="footer-logo">🌿 Keres</h4>
                 <p class="footer-desc">
@@ -71,37 +101,35 @@
                 </p>
                 <div class="footer-redes">
                     <a href="#" class="footer-red">
-                        <svg viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
+                        <svg viewBox="0 0 24 24" fill="none">
                             <path d="M18 2h-3a5 5 0 0 0-5 5v3H7v4h3v8h4v-8h3l1-4h-4V7a1 1 0 0 1 1-1h3z" stroke="white" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"/>
                         </svg>
                     </a>
                     <a href="#" class="footer-red">
-                        <svg viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
+                        <svg viewBox="0 0 24 24" fill="none">
                             <rect x="2" y="2" width="20" height="20" rx="5" stroke="white" stroke-width="1.8"/>
                             <circle cx="12" cy="12" r="4" stroke="white" stroke-width="1.8"/>
                             <circle cx="17.5" cy="6.5" r="1" fill="white"/>
                         </svg>
                     </a>
                     <a href="#" class="footer-red">
-                        <svg viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
+                        <svg viewBox="0 0 24 24" fill="none">
                             <path d="M4 4l16 16M4 20L20 4" stroke="white" stroke-width="1.8" stroke-linecap="round"/>
                         </svg>
                     </a>
                 </div>
             </div>
 
-            <!-- PLATAFORMA -->
             <div class="col-md-2">
                 <h6 class="footer-heading">Plataforma</h6>
                 <ul class="footer-links">
                     <li><a href="/cultivos/">Cultivos</a></li>
                     <li><a href="/suelos/">Suelos</a></li>
                     <li><a href="/galeria/">Galería</a></li>
-                    <li><a href="/dashboard/">Dashboard</a></li>
+                    <li><a href="/productividad/">Productividad</a></li>
                 </ul>
             </div>
 
-            <!-- RECURSOS -->
             <div class="col-md-2">
                 <h6 class="footer-heading">Recursos</h6>
                 <ul class="footer-links">
@@ -112,7 +140,6 @@
                 </ul>
             </div>
 
-            <!-- CONTACTO -->
             <div class="col-md-4">
                 <h6 class="footer-heading">Contacto</h6>
                 <ul class="footer-links">
@@ -139,9 +166,15 @@
 
 <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.bundle.min.js"></script>
 <script src="https://unpkg.com/aos@2.3.4/dist/aos.js"></script>
+<script src="https://unpkg.com/leaflet@1.9.4/dist/leaflet.js"></script>
 
 <script>
-AOS.init({ duration: 1000, once: true });
+AOS.init({
+    duration: 800,
+    easing: 'ease-out-cubic',
+    once: true,
+    offset: 80,
+});
 
 window.addEventListener("scroll", function() {
     let navbar = document.querySelector(".navbar");
@@ -154,6 +187,197 @@ window.addEventListener("scroll", function() {
     document.querySelectorAll(".fade-up").forEach(el => {
         if (el.getBoundingClientRect().top < window.innerHeight - 100) {
             el.classList.add("visible");
+        }
+    });
+});
+</script>
+
+<script>
+    const GEOJSON_URL = "{% static 'js/colombia.geojson' %}";
+</script>
+
+<script>
+const datosDepartamentos = {
+    "ANTIOQUIA":      { region: "Región Andina",    cultivos: [{ nombre: "Café", pct: 85 }, { nombre: "Caña de azúcar", pct: 60 }, { nombre: "Cacao", pct: 45 }] },
+    "CUNDINAMARCA":   { region: "Región Andina",    cultivos: [{ nombre: "Papa", pct: 90 }, { nombre: "Maíz", pct: 55 }, { nombre: "Flores", pct: 70 }] },
+    "VALLE DEL CAUCA":{ region: "Región Andina",    cultivos: [{ nombre: "Caña de azúcar", pct: 95 }, { nombre: "Café", pct: 60 }, { nombre: "Aguacate", pct: 50 }] },
+    "NARINO":         { region: "Región Andina",    cultivos: [{ nombre: "Papa", pct: 80 }, { nombre: "Café", pct: 65 }, { nombre: "Quinua", pct: 40 }] },
+    "HUILA":          { region: "Región Andina",    cultivos: [{ nombre: "Café", pct: 90 }, { nombre: "Arroz", pct: 55 }, { nombre: "Cacao", pct: 45 }] },
+    "TOLIMA":         { region: "Región Andina",    cultivos: [{ nombre: "Arroz", pct: 85 }, { nombre: "Café", pct: 70 }, { nombre: "Algodón", pct: 35 }] },
+    "BOYACA":         { region: "Región Andina",    cultivos: [{ nombre: "Papa", pct: 88 }, { nombre: "Maíz", pct: 50 }, { nombre: "Cebada", pct: 42 }] },
+    "CALDAS":         { region: "Región Andina",    cultivos: [{ nombre: "Café", pct: 92 }, { nombre: "Plátano", pct: 60 }, { nombre: "Yuca", pct: 35 }] },
+    "RISARALDA":      { region: "Región Andina",    cultivos: [{ nombre: "Café", pct: 90 }, { nombre: "Plátano", pct: 55 }, { nombre: "Cacao", pct: 30 }] },
+    "QUINDIO":        { region: "Región Andina",    cultivos: [{ nombre: "Café", pct: 88 }, { nombre: "Plátano", pct: 65 }, { nombre: "Cítricos", pct: 40 }] },
+    "CORDOBA":        { region: "Región Caribe",    cultivos: [{ nombre: "Maíz", pct: 80 }, { nombre: "Yuca", pct: 70 }, { nombre: "Ñame", pct: 55 }] },
+    "BOLIVAR":        { region: "Región Caribe",    cultivos: [{ nombre: "Yuca", pct: 75 }, { nombre: "Ñame", pct: 60 }, { nombre: "Maíz", pct: 50 }] },
+    "ATLANTICO":      { region: "Región Caribe",    cultivos: [{ nombre: "Maíz", pct: 70 }, { nombre: "Yuca", pct: 55 }, { nombre: "Sorgo", pct: 40 }] },
+    "MAGDALENA":      { region: "Región Caribe",    cultivos: [{ nombre: "Banano", pct: 90 }, { nombre: "Palma de aceite", pct: 75 }, { nombre: "Maíz", pct: 45 }] },
+    "CESAR":          { region: "Región Caribe",    cultivos: [{ nombre: "Palma de aceite", pct: 80 }, { nombre: "Café", pct: 55 }, { nombre: "Maíz", pct: 50 }] },
+    "LA GUAJIRA":     { region: "Región Caribe",    cultivos: [{ nombre: "Maíz", pct: 60 }, { nombre: "Yuca", pct: 55 }, { nombre: "Patilla", pct: 45 }] },
+    "SUCRE":          { region: "Región Caribe",    cultivos: [{ nombre: "Yuca", pct: 78 }, { nombre: "Ñame", pct: 65 }, { nombre: "Maíz", pct: 55 }] },
+    "CHOCO":          { region: "Región Pacífica",  cultivos: [{ nombre: "Plátano", pct: 85 }, { nombre: "Maíz", pct: 60 }, { nombre: "Cacao", pct: 40 }] },
+    "CAUCA":          { region: "Región Pacífica",  cultivos: [{ nombre: "Café", pct: 80 }, { nombre: "Caña panelera", pct: 65 }, { nombre: "Maíz", pct: 50 }] },
+    "META":           { region: "Región Orinoquía", cultivos: [{ nombre: "Palma de aceite", pct: 88 }, { nombre: "Arroz", pct: 70 }, { nombre: "Maíz", pct: 55 }] },
+    "CASANARE":       { region: "Región Orinoquía", cultivos: [{ nombre: "Arroz", pct: 85 }, { nombre: "Palma de aceite", pct: 70 }, { nombre: "Maíz", pct: 50 }] },
+    "VICHADA":        { region: "Región Orinoquía", cultivos: [{ nombre: "Yuca", pct: 70 }, { nombre: "Maíz", pct: 55 }, { nombre: "Plátano", pct: 40 }] },
+    "AMAZONAS":       { region: "Región Amazonía",  cultivos: [{ nombre: "Yuca", pct: 80 }, { nombre: "Plátano", pct: 65 }, { nombre: "Piña", pct: 40 }] },
+    "PUTUMAYO":       { region: "Región Amazonía",  cultivos: [{ nombre: "Yuca", pct: 75 }, { nombre: "Maíz", pct: 60 }, { nombre: "Plátano", pct: 55 }] },
+    "CAQUETA":        { region: "Región Amazonía",  cultivos: [{ nombre: "Yuca", pct: 78 }, { nombre: "Maíz", pct: 62 }, { nombre: "Plátano", pct: 50 }] },
+    "SANTANDER":      { region: "Región Andina",    cultivos: [{ nombre: "Cacao", pct: 82 }, { nombre: "Café", pct: 65 }, { nombre: "Palma de aceite", pct: 50 }] },
+    "NORTE DE SANTANDER": { region: "Región Andina", cultivos: [{ nombre: "Café", pct: 75 }, { nombre: "Cacao", pct: 55 }, { nombre: "Arroz", pct: 40 }] },
+    "ARAUCA":         { region: "Región Orinoquía", cultivos: [{ nombre: "Cacao", pct: 80 }, { nombre: "Plátano", pct: 65 }, { nombre: "Maíz", pct: 50 }] },
+    "GUAINIA":        { region: "Región Amazonía",  cultivos: [{ nombre: "Yuca", pct: 75 }, { nombre: "Plátano", pct: 60 }, { nombre: "Piña", pct: 35 }] },
+    "VAUPES":         { region: "Región Amazonía",  cultivos: [{ nombre: "Yuca", pct: 80 }, { nombre: "Plátano", pct: 55 }, { nombre: "Maíz", pct: 40 }] },
+    "GUAVIARE":       { region: "Región Amazonía",  cultivos: [{ nombre: "Yuca", pct: 72 }, { nombre: "Plátano", pct: 58 }, { nombre: "Maíz", pct: 45 }] },
+    "SAN ANDRES":     { region: "Región Insular",   cultivos: [{ nombre: "Coco", pct: 90 }, { nombre: "Plátano", pct: 60 }, { nombre: "Yuca", pct: 40 }] },
+};
+
+const coloresRegion = {
+    "Región Andina":    "#2e7d32",
+    "Región Caribe":    "#1565c0",
+    "Región Pacífica":  "#6a1b9a",
+    "Región Orinoquía": "#e65100",
+    "Región Amazonía":  "#00695c",
+    "Región Insular":   "#ad1457",
+};
+
+// VARIABLE GLOBAL para departamento seleccionado
+let departamentoSeleccionado = null;
+
+if (document.getElementById('mapa-colombia')) {
+
+    const mapa = L.map('mapa-colombia', {
+        center: [4.5709, -74.2973],
+        zoom: 5,
+        zoomControl: true,
+        scrollWheelZoom: false,
+    });
+
+    L.tileLayer('https://{s}.basemaps.cartocdn.com/dark_all/{z}/{x}/{y}{r}.png', {
+        attribution: '© OpenStreetMap © CARTO'
+    }).addTo(mapa);
+
+    fetch(GEOJSON_URL)
+    .then(r => r.json())
+    .then(data => {
+
+        L.geoJSON(data, {
+
+            style: feature => {
+                const nombre = feature.properties.NOMBRE_DPT || feature.properties.name || feature.properties.NAME_1;
+                const info = datosDepartamentos[nombre];
+                const color = info ? coloresRegion[info.region] : "#444";
+                return {
+                    fillColor: color,
+                    fillOpacity: 0.6,
+                    color: "#ffffff",
+                    weight: 1,
+                };
+            },
+
+            onEachFeature: (feature, layer) => {
+                console.log(feature.properties);
+                const nombre = feature.properties.NOMBRE_DPT;
+                const info = datosDepartamentos[nombre];
+
+                layer.on('mouseover', function() {
+                    this.setStyle({ fillOpacity: 0.9, weight: 2 });
+                    if (!departamentoSeleccionado && info) {
+                        mostrarPanel(nombre, info);
+                    }
+                });
+
+                layer.on('mouseout', function() {
+                    this.setStyle({ fillOpacity: 0.6, weight: 1 });
+                    if (!departamentoSeleccionado) {
+                        document.querySelector('.mapa-panel-placeholder').style.display = 'flex';
+                        document.getElementById('mapa-panel-info').style.display = 'none';
+                    }
+                });
+
+                layer.on('click', function() {
+                    if (departamentoSeleccionado && departamentoSeleccionado !== this) {
+                        departamentoSeleccionado.setStyle({ fillOpacity: 0.6, weight: 1, color: '#ffffff' });
+                    }
+
+                    if (departamentoSeleccionado === this) {
+                        departamentoSeleccionado = null;
+                        this.setStyle({ fillOpacity: 0.6, weight: 1, color: '#ffffff' });
+                        document.querySelector('.mapa-panel-placeholder').style.display = 'flex';
+                        document.getElementById('mapa-panel-info').style.display = 'none';
+                    } else {
+                        departamentoSeleccionado = this;
+                        this.setStyle({ fillOpacity: 1, weight: 3, color: '#fff' });
+                        if (info) mostrarPanel(nombre, info);
+                    }
+                });
+            }
+
+        }).addTo(mapa);
+    })
+    .catch(err => console.log('Error GeoJSON:', err));
+}
+
+function mostrarPanel(nombre, info) {
+    document.querySelector('.mapa-panel-placeholder').style.display = 'none';
+    document.getElementById('mapa-panel-info').style.display = 'block';
+    document.getElementById('panel-depto').textContent = nombre;
+    document.getElementById('panel-region').textContent = info.region;
+
+    const contenedor = document.getElementById('panel-cultivos');
+    contenedor.innerHTML = '';
+
+    info.cultivos.forEach(c => {
+        contenedor.innerHTML += `
+            <div class="cultivo-barra">
+                <div class="cultivo-barra-header">
+                    <span class="cultivo-nombre">${c.nombre}</span>
+                    <span class="cultivo-porcentaje">${c.pct}%</span>
+                </div>
+                <div class="cultivo-barra-bg">
+                    <div class="cultivo-barra-fill" style="width: ${c.pct}%"></div>
+                </div>
+            </div>
+        `;
+    });
+}
+</script>
+
+<script>
+// TRANSICIÓN ENTRE PÁGINAS
+const transition = document.getElementById('page-transition');
+
+// Animación de entrada
+window.addEventListener('load', () => {
+    transition.classList.add('entrando');
+    setTimeout(() => {
+        transition.style.display = 'none';
+    }, 800);
+});
+
+// Animación de salida al hacer clic en links
+document.querySelectorAll('a').forEach(link => {
+    link.addEventListener('click', function(e) {
+        const href = this.getAttribute('href');
+
+        // Solo aplicar a links internos
+        if (href && 
+            !href.startsWith('#') && 
+            !href.startsWith('http') && 
+            !href.startsWith('mailto') &&
+            !this.hasAttribute('target')) {
+
+            e.preventDefault();
+            transition.style.display = 'block';
+            transition.classList.remove('entrando');
+
+            setTimeout(() => {
+                transition.classList.add('saliendo');
+            }, 10);
+
+            setTimeout(() => {
+                window.location.href = href;
+            }, 700);
         }
     });
 });

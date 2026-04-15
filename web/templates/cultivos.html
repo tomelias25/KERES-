@@ -1,46 +1,113 @@
 {% extends 'base.html' %}
 {% block contenido %}
 
-<div class="container mt-5">
+<!-- HERO CULTIVOS -->
+<section class="hero hero-cultivos">
+    <div class="container text-white">
 
-<h1>Cultivos</h1>
+        <div class="hero-badge mb-3">
+            <span class="badge-dot"></span>
+            🌱 Catálogo agrícola colombiano
+        </div>
 
-<form method="GET" class="mb-3">
-<input type="text" name="buscar" class="form-control" placeholder="Buscar...">
-</form>
+        <h1 class="display-3 fw-bold hero-titulo">
+            Explora nuestros <br>
+            <span class="hero-highlight">cultivos</span>
+        </h1>
 
-<form method="GET" class="mb-4">
-<select name="suelo" class="form-select">
-<option value="">Filtrar por suelo</option>
-{% for suelo in suelos %}
-<option value="{{ suelo.id }}">{{ suelo.nombre }}</option>
-{% endfor %}
-</select>
-<button class="btn btn-primary mt-2">Filtrar</button>
-</form>
+        <p class="lead mb-4 hero-sub">
+            Encuentra información detallada sobre cada cultivo,<br>
+            sus suelos ideales y técnicas de producción.
+        </p>
 
-<div class="row">
+        <div class="hero-stats">
+            <div class="hero-stat">
+                <strong>+500</strong>
+                <span>Cultivos</span>
+            </div>
+            <div class="hero-stat-divider"></div>
+            <div class="hero-stat">
+                <strong>32</strong>
+                <span>Departamentos</span>
+            </div>
+            <div class="hero-stat-divider"></div>
+            <div class="hero-stat">
+                <strong>100%</strong>
+                <span>Gratis</span>
+            </div>
+        </div>
 
-{% for cultivo in cultivos %}
-<div class="col-md-4 mb-4">
+    </div>
 
-<div class="card">
+    <div class="scroll-indicator">
+        <span>Ver cultivos</span>
+        <div class="scroll-arrow">
+            <svg viewBox="0 0 24 24" fill="none">
+                <path d="M12 5v14M5 12l7 7 7-7" stroke="white" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/>
+            </svg>
+        </div>
+    </div>
+</section>
 
-{% if cultivo.imagen %}
-<img src="{{ cultivo.imagen.url }}" class="card-img-top" style="height:200px; object-fit:cover;">
-{% endif %}
+<!-- CONTENIDO -->
+<div class="cultivos-container">
+    <div class="container">
 
-<div class="card-body">
-<h5>{{ cultivo.nombre }}</h5>
-<p>{{ cultivo.descripcion }}</p>
-</div>
+        <!-- FILTROS -->
+        <div class="cultivos-filtros mb-5">
+            <form method="GET" class="d-flex gap-3 flex-wrap align-items-end">
+                <div class="flex-grow-1">
+                    <input type="text" name="buscar" class="form-control cultivos-input"
+                           placeholder="🔍 Buscar cultivo..."
+                           value="{{ request.GET.buscar }}">
+                </div>
+                <div>
+                    <select name="suelo" class="form-select cultivos-select">
+                        <option value="">Todos los suelos</option>
+                        {% for suelo in suelos %}
+                        <option value="{{ suelo.id }}" {% if request.GET.suelo == suelo.id|stringformat:"s" %}selected{% endif %}>
+                            {{ suelo.nombre }}
+                        </option>
+                        {% endfor %}
+                    </select>
+                </div>
+                <div>
+                    <button type="submit" class="btn cultivos-btn-filtrar">
+                        Filtrar
+                    </button>
+                </div>
+            </form>
+        </div>
 
-</div>
-</div>
-{% endfor %}
+        <!-- CARDS -->
+        <div class="row">
+            {% for cultivo in cultivos %}
+            <div class="col-md-4 mb-4">
+                <div class="cultivo-card">
 
-</div>
+                    <div class="cultivo-img-wrap">
+                        {% if cultivo.imagen %}
+                        <img src="{{ cultivo.imagen.url }}" alt="{{ cultivo.nombre }}">
+                        {% endif %}
+                        <div class="cultivo-badge-suelo">{{ cultivo.suelo }}</div>
+                    </div>
 
+                    <div class="cultivo-body">
+                        <h5 class="cultivo-nombre">{{ cultivo.nombre }}</h5>
+                        <p class="cultivo-desc">{{ cultivo.descripcion|truncatechars:100 }}</p>
+                        <a href="{% url 'detalle_cultivo' cultivo.id %}" class="cultivo-btn">Ver detalle →</a>
+                    </div>
+
+                </div>
+            </div>
+            {% empty %}
+            <div class="col-12 text-center py-5">
+                <p style="color:#999; font-size:1.1rem;">No se encontraron cultivos.</p>
+            </div>
+            {% endfor %}
+        </div>
+
+    </div>
 </div>
 
 {% endblock %}

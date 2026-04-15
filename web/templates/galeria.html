@@ -2,48 +2,200 @@
 {% load static %}
 {% block contenido %}
 
-<section class="container-fluid mt-5 text-center">
+<!-- HERO GALERÍA -->
+<section class="hero hero-cultivos">
+    <div class="container text-white">
 
-<h2>Galería</h2>
+        <div class="hero-badge mb-3">
+            <span class="badge-dot"></span>
+            📸 Galería visual agrícola
+        </div>
 
-<div class="row">
+        <h1 class="display-3 fw-bold hero-titulo">
+            Galería de <br>
+            <span class="hero-highlight">cultivos</span>
+        </h1>
 
-{% for cultivo in cultivos %}
-<div class="col-md-3 mb-4">
+        <p class="lead mb-4 hero-sub">
+            Explora imágenes de los cultivos más representativos<br>
+            de Colombia en alta resolución.
+        </p>
 
-<div class="card galeria-card">
+    </div>
 
-{% if cultivo.imagen %}
-<img src="{{ cultivo.imagen.url }}" class="img-galeria"
-onclick="abrirImagen('{{ cultivo.imagen.url }}')">
-{% endif %}
-
-<div class="card-body">
-<h6>{{ cultivo.nombre }}</h6>
-</div>
-
-</div>
-</div>
-{% endfor %}
-
-</div>
+    <div class="scroll-indicator">
+        <span>Ver galería</span>
+        <div class="scroll-arrow">
+            <svg viewBox="0 0 24 24" fill="none">
+                <path d="M12 5v14M5 12l7 7 7-7" stroke="white" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/>
+            </svg>
+        </div>
+    </div>
 </section>
 
-<div class="modal fade" id="imagenModal">
-  <div class="modal-dialog modal-lg modal-dialog-centered">
-    <div class="modal-content bg-dark">
-      <div class="modal-body text-center">
-        <img id="imagenGrande" class="img-fluid">
-      </div>
+<!-- CONTENIDO -->
+<div class="cultivos-container">
+    <div class="container">
+
+        <!-- FILTROS POR LETRA / BÚSQUEDA -->
+        <div class="galeria-filtros mb-5" data-aos="fade-up">
+            <input type="text" id="galeria-buscar" class="cultivos-input w-100"
+                   placeholder="🔍 Buscar cultivo en la galería...">
+        </div>
+
+        <!-- CONTADOR -->
+        <p class="galeria-contador mb-4" id="galeria-contador" data-aos="fade-up">
+            Mostrando <strong id="contador-num">{{ cultivos|length }}</strong> cultivos
+        </p>
+
+        <!-- GRID GALERÍA -->
+        <div class="row" id="galeria-grid">
+            {% for cultivo in cultivos %}
+            <div class="col-md-3 mb-4 galeria-item"
+                 data-nombre="{{ cultivo.nombre|lower }}"
+                 data-aos="fade-up"
+                 data-aos-delay="{{ forloop.counter }}00">
+
+                <div class="gal-card" onclick="abrirLightbox('{{ cultivo.imagen.url }}', '{{ cultivo.nombre }}', '{{ cultivo.suelo }}')">
+
+                    {% if cultivo.imagen %}
+                    <div class="gal-img-wrap">
+                        <img src="{{ cultivo.imagen.url }}" alt="{{ cultivo.nombre }}">
+                        <div class="gal-overlay">
+                            <div class="gal-overlay-icono">
+                                <svg viewBox="0 0 24 24" fill="none" width="32" height="32">
+                                    <circle cx="11" cy="11" r="8" stroke="white" stroke-width="2"/>
+                                    <path d="M21 21l-4.35-4.35M11 8v6M8 11h6" stroke="white" stroke-width="2" stroke-linecap="round"/>
+                                </svg>
+                            </div>
+                            <p class="gal-overlay-texto">Ver imagen</p>
+                        </div>
+                    </div>
+                    {% endif %}
+
+                    <div class="gal-body">
+                        <h6 class="gal-nombre">{{ cultivo.nombre }}</h6>
+                        <span class="gal-suelo">{{ cultivo.suelo }}</span>
+                    </div>
+
+                </div>
+            </div>
+            {% endfor %}
+        </div>
+
+        <!-- MENSAJE SIN RESULTADOS -->
+        <div class="galeria-vacia text-center py-5" id="galeria-vacia" style="display:none;">
+            <p style="color:#999; font-size:1.1rem;">No se encontraron cultivos con ese nombre.</p>
+        </div>
+
     </div>
-  </div>
+</div>
+
+<!-- LIGHTBOX -->
+<div class="lightbox-overlay" id="lightbox" onclick="cerrarLightbox()">
+    <div class="lightbox-contenido" onclick="event.stopPropagation()">
+
+        <button class="lightbox-cerrar" onclick="cerrarLightbox()">
+            <svg viewBox="0 0 24 24" fill="none" width="24" height="24">
+                <path d="M18 6L6 18M6 6l12 12" stroke="white" stroke-width="2" stroke-linecap="round"/>
+            </svg>
+        </button>
+
+        <div class="lightbox-img-wrap">
+            <img id="lightbox-img" src="" alt="">
+        </div>
+
+        <div class="lightbox-info">
+            <h4 id="lightbox-nombre"></h4>
+            <span id="lightbox-suelo"></span>
+        </div>
+
+        <div class="lightbox-nav">
+            <button class="lightbox-nav-btn" onclick="navegarLightbox(-1)">
+                <svg viewBox="0 0 24 24" fill="none" width="20" height="20">
+                    <path d="M15 18l-6-6 6-6" stroke="white" stroke-width="2" stroke-linecap="round"/>
+                </svg>
+            </button>
+            <span id="lightbox-contador" style="color:rgba(255,255,255,0.6); font-size:0.85rem;"></span>
+            <button class="lightbox-nav-btn" onclick="navegarLightbox(1)">
+                <svg viewBox="0 0 24 24" fill="none" width="20" height="20">
+                    <path d="M9 18l6-6-6-6" stroke="white" stroke-width="2" stroke-linecap="round"/>
+                </svg>
+            </button>
+        </div>
+
+    </div>
 </div>
 
 <script>
-function abrirImagen(src) {
-    document.getElementById("imagenGrande").src = src;
-    new bootstrap.Modal(document.getElementById('imagenModal')).show();
+
+// DATOS DE CULTIVOS PARA NAVEGACIÓN
+
+let indiceActual = 0;
+
+// ABRIR LIGHTBOX
+function abrirLightbox(url, nombre, suelo) {
+    indiceActual = cultivosData.findIndex((c) => c.url === url);
+    actualizarLightbox();
+    document.getElementById('lightbox').classList.add('activo');
+    document.body.style.overflow = 'hidden';
 }
+
+// ACTUALIZAR CONTENIDO LIGHTBOX
+function actualizarLightbox() {
+    const cultivo = cultivosData[indiceActual];
+    const img = document.getElementById('lightbox-img');
+    img.style.opacity = '0';
+    setTimeout(() => {
+        img.src = cultivo.url;
+        img.onload = () => { img.style.opacity = '1'; };
+    }, 150);
+    document.getElementById('lightbox-nombre').textContent = cultivo.nombre;
+    document.getElementById('lightbox-suelo').textContent = cultivo.suelo;
+    document.getElementById('lightbox-contador').textContent =
+        (indiceActual + 1) + ' / ' + cultivosData.length;
+}
+
+// CERRAR LIGHTBOX
+function cerrarLightbox() {
+    document.getElementById('lightbox').classList.remove('activo');
+    document.body.style.overflow = '';
+}
+
+// NAVEGAR
+function navegarLightbox(direccion) {
+    indiceActual = (indiceActual + direccion + cultivosData.length) % cultivosData.length;
+    actualizarLightbox();
+}
+
+// TECLADO
+document.addEventListener('keydown', e => {
+    if (document.getElementById('lightbox').classList.contains('activo')) {
+        if (e.key === 'ArrowRight') navegarLightbox(1);
+        if (e.key === 'ArrowLeft') navegarLightbox(-1);
+        if (e.key === 'Escape') cerrarLightbox();
+    }
+});
+
+// FILTRO DE BÚSQUEDA
+document.getElementById('galeria-buscar').addEventListener('input', function() {
+    const busqueda = this.value.toLowerCase();
+    const items = document.querySelectorAll('.galeria-item');
+    let visibles = 0;
+
+    items.forEach(item => {
+        const nombre = item.getAttribute('data-nombre');
+        if (nombre.includes(busqueda)) {
+            item.style.display = 'flex';
+            visibles++;
+        } else {
+            item.style.display = 'none';
+        }
+    });
+
+    document.getElementById('contador-num').textContent = visibles;
+    document.getElementById('galeria-vacia').style.display = visibles === 0 ? 'block' : 'none';
+});
 </script>
 
 {% endblock %}

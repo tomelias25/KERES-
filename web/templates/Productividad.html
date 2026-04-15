@@ -1,0 +1,234 @@
+{% extends 'base.html' %}
+{% block contenido %}
+
+<!-- HERO PRODUCTIVIDAD -->
+<section class="hero hero-cultivos">
+    <div class="container text-white">
+
+        <div class="hero-badge mb-3">
+            <span class="badge-dot"></span>
+            📊 Panel de análisis agrícola
+        </div>
+
+        <h1 class="display-3 fw-bold hero-titulo">
+            Productividad <br>
+            <span class="hero-highlight">agrícola</span>
+        </h1>
+
+        <p class="lead mb-4 hero-sub">
+            Visualiza estadísticas, precios y tendencias<br>
+            del sector agrícola colombiano.
+        </p>
+
+    </div>
+</section>
+
+<!-- CONTENIDO -->
+<div class="cultivos-container">
+    <div class="container">
+
+        <!-- TARJETAS RESUMEN -->
+        <div class="row g-4 mb-5">
+            <div class="col-md-3">
+                <div class="dash-stat-card">
+                    <div class="dash-stat-icono">🌱</div>
+                    <div class="dash-stat-numero">{{ total_cultivos }}</div>
+                    <div class="dash-stat-label">Cultivos registrados</div>
+                </div>
+            </div>
+            <div class="col-md-3">
+                <div class="dash-stat-card">
+                    <div class="dash-stat-icono">🌍</div>
+                    <div class="dash-stat-numero">{{ total_suelos }}</div>
+                    <div class="dash-stat-label">Tipos de suelo</div>
+                </div>
+            </div>
+            <div class="col-md-3">
+                <div class="dash-stat-card">
+                    <div class="dash-stat-icono">🗺️</div>
+                    <div class="dash-stat-numero">6</div>
+                    <div class="dash-stat-label">Regiones cubiertas</div>
+                </div>
+            </div>
+            <div class="col-md-3">
+                <div class="dash-stat-card">
+                    <div class="dash-stat-icono">📈</div>
+                    <div class="dash-stat-numero">100%</div>
+                    <div class="dash-stat-label">Datos actualizados</div>
+                </div>
+            </div>
+        </div>
+
+        <!-- FILA 1 - REGIÓN Y SUELO -->
+        <div class="row g-4 mb-4">
+
+            <div class="col-md-6">
+                <div class="dash-card">
+                    <h5 class="dash-card-titulo">Cultivos por región</h5>
+                    <div id="grafico-region"></div>
+                </div>
+            </div>
+
+            <div class="col-md-6">
+                <div class="dash-card">
+                    <h5 class="dash-card-titulo">Cultivos por tipo de suelo</h5>
+                    <div id="grafico-suelo"></div>
+                </div>
+            </div>
+
+        </div>
+
+        <!-- FILA 2 - CLIMA Y RENDIMIENTO -->
+        <div class="row g-4 mb-4">
+
+            <div class="col-md-6">
+                <div class="dash-card">
+                    <h5 class="dash-card-titulo">Cultivos por clima</h5>
+                    <div id="grafico-clima"></div>
+                </div>
+            </div>
+
+            <div class="col-md-6">
+                <div class="dash-card">
+                    <h5 class="dash-card-titulo">Top rendimiento (ton/ha)</h5>
+                    <div id="grafico-rendimiento"></div>
+                </div>
+            </div>
+
+        </div>
+
+        <!-- FILA 3 - PRECIOS NACIONALES (datos estáticos) -->
+        <div class="row g-4 mb-4">
+            <div class="col-md-12">
+                <div class="dash-card">
+                    <h5 class="dash-card-titulo">Precios nacionales 2024 (COP/kg)</h5>
+                    <div id="grafico-precios"></div>
+                </div>
+            </div>
+        </div>
+
+        <!-- FILA 4 - IMPORTACIÓN VS EXPORTACIÓN -->
+        <div class="row g-4 mb-4">
+            <div class="col-md-12">
+                <div class="dash-card">
+                    <h5 class="dash-card-titulo">Importación vs Exportación 2024 (miles de toneladas)</h5>
+                    <div id="grafico-comercio"></div>
+                </div>
+            </div>
+        </div>
+
+    </div>
+</div>
+
+<!-- DATOS DESDE DJANGO -->
+{{ cultivos_por_region|json_script:"data-region" }}
+{{ cultivos_por_suelo|json_script:"data-suelo" }}
+{{ cultivos_por_clima|json_script:"data-clima" }}
+{{ top_rendimiento|json_script:"data-rendimiento" }}
+
+<script src="https://cdn.jsdelivr.net/npm/apexcharts"></script>
+
+<script>
+// PARSEAR DATOS DJANGO
+const dataRegion = JSON.parse(document.getElementById('data-region').textContent);
+const dataSuelo = JSON.parse(document.getElementById('data-suelo').textContent);
+const dataClima = JSON.parse(document.getElementById('data-clima').textContent);
+const dataRendimiento = JSON.parse(document.getElementById('data-rendimiento').textContent);
+
+const regionLabels = {
+    'andina': 'Región Andina',
+    'caribe': 'Región Caribe',
+    'pacifica': 'Región Pacífica',
+    'orinoquia': 'Región Orinoquía',
+    'amazonia': 'Región Amazonía',
+    'insular': 'Región Insular',
+};
+
+const climaLabels = {
+    'calido': 'Cálido',
+    'templado': 'Templado',
+    'frio': 'Frío',
+    'paramo': 'Páramo',
+};
+
+const coloresVerdes = ['#1b5e20', '#2e7d32', '#388e3c', '#43a047', '#66bb6a', '#81c784', '#a5d6a7'];
+
+// ===== GRÁFICO REGIÓN (DONA) =====
+new ApexCharts(document.getElementById('grafico-region'), {
+    series: dataRegion.map(r => r.total),
+    labels: dataRegion.map(r => regionLabels[r.region] || r.region),
+    chart: { type: 'donut', height: 320 },
+    colors: coloresVerdes,
+    legend: { position: 'bottom' },
+    plotOptions: { pie: { donut: { size: '65%' } } },
+    dataLabels: { enabled: true },
+}).render();
+
+// ===== GRÁFICO SUELO (BARRAS) =====
+new ApexCharts(document.getElementById('grafico-suelo'), {
+    series: [{ name: 'Cultivos', data: dataSuelo.map(s => s.total) }],
+    chart: { type: 'bar', height: 320 },
+    xaxis: { categories: dataSuelo.map(s => s.suelo__nombre) },
+    colors: ['#2e7d32'],
+    plotOptions: { bar: { borderRadius: 8, columnWidth: '50%' } },
+    dataLabels: { enabled: false },
+    grid: { borderColor: '#f0f0f0' },
+}).render();
+
+// ===== GRÁFICO CLIMA (BARRAS HORIZONTAL) =====
+new ApexCharts(document.getElementById('grafico-clima'), {
+    series: [{ name: 'Cultivos', data: dataClima.map(c => c.total) }],
+    chart: { type: 'bar', height: 320 },
+    xaxis: { categories: dataClima.map(c => climaLabels[c.clima] || c.clima) },
+    colors: ['#388e3c'],
+    plotOptions: { bar: { borderRadius: 8, horizontal: true } },
+    dataLabels: { enabled: false },
+    grid: { borderColor: '#f0f0f0' },
+}).render();
+
+// ===== GRÁFICO RENDIMIENTO (BARRAS) =====
+new ApexCharts(document.getElementById('grafico-rendimiento'), {
+    series: [{ name: 'Ton/ha', data: dataRendimiento.map(r => parseFloat(r.rendimiento_ha)) }],
+    chart: { type: 'bar', height: 320 },
+    xaxis: { categories: dataRendimiento.map(r => r.nombre) },
+    colors: ['#43a047'],
+    plotOptions: { bar: { borderRadius: 8, columnWidth: '50%' } },
+    dataLabels: { enabled: false },
+    grid: { borderColor: '#f0f0f0' },
+}).render();
+
+// ===== GRÁFICO PRECIOS (LÍNEA - datos estáticos) =====
+new ApexCharts(document.getElementById('grafico-precios'), {
+    series: [
+        { name: 'Café', data: [8500, 9200, 8800, 9500, 10200, 9800, 10500, 11000, 10800, 11500, 12000, 11800] },
+        { name: 'Aguacate', data: [3200, 3500, 2800, 3100, 4200, 4800, 4500, 3900, 3600, 4100, 4400, 4200] },
+        { name: 'Plátano', data: [1200, 1300, 1100, 1250, 1400, 1350, 1500, 1450, 1380, 1420, 1480, 1460] },
+        { name: 'Cacao', data: [9800, 10200, 9500, 10800, 11500, 11200, 12000, 12500, 12200, 13000, 13500, 13200] },
+    ],
+    chart: { type: 'line', height: 350 },
+    xaxis: { categories: ['Ene','Feb','Mar','Abr','May','Jun','Jul','Ago','Sep','Oct','Nov','Dic'] },
+    colors: ['#1b5e20', '#2e7d32', '#66bb6a', '#a5d6a7'],
+    stroke: { curve: 'smooth', width: 3 },
+    legend: { position: 'top' },
+    grid: { borderColor: '#f0f0f0' },
+    tooltip: { y: { formatter: val => '$ ' + val.toLocaleString() + ' /kg' } },
+}).render();
+
+// ===== GRÁFICO COMERCIO (BARRAS AGRUPADAS - datos estáticos) =====
+new ApexCharts(document.getElementById('grafico-comercio'), {
+    series: [
+        { name: 'Exportación', data: [850, 320, 180, 95, 420, 75] },
+        { name: 'Importación', data: [12, 180, 95, 320, 45, 210] },
+    ],
+    chart: { type: 'bar', height: 350 },
+    xaxis: { categories: ['Café', 'Maíz', 'Arroz', 'Trigo', 'Banano', 'Soya'] },
+    colors: ['#2e7d32', '#a5d6a7'],
+    plotOptions: { bar: { borderRadius: 6, columnWidth: '55%', grouped: true } },
+    dataLabels: { enabled: false },
+    legend: { position: 'top' },
+    grid: { borderColor: '#f0f0f0' },
+    tooltip: { y: { formatter: val => val + ' mil ton' } },
+}).render();
+</script>
+
+{% endblock %}
