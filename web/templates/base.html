@@ -2,6 +2,7 @@
 <html lang="es">
 <head>
 <meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0, viewport-fit=cover">
 <title>Keres</title>
 
 {% load static %}
@@ -15,12 +16,15 @@
 </head>
 
 <style>
+html, body {
+    overflow-x: hidden;
+    max-width: 100%;
+}
+
 .page-transition {
     position: fixed;
-    top: 0;
-    left: 0;
-    width: 100%;
-    height: 100vh;
+    top: 0; left: 0;
+    width: 100%; height: 100vh;
     min-height: 100%;
     background: #1b5e20;
     z-index: 9999;
@@ -29,16 +33,29 @@
     transition: transform 0.8s cubic-bezier(0.76, 0, 0.24, 1);
     pointer-events: none;
 }
-
 .page-transition.saliendo {
     transform: scaleY(1);
     transform-origin: top;
     pointer-events: all;
 }
-
 .page-transition.entrando {
     transform: scaleY(0);
     transform-origin: bottom;
+}
+
+@media (max-width: 576px) {
+    .footer-col-logo { margin-bottom: 24px; }
+    .footer-logo-text {
+        font-size: 1.3rem !important;
+        font-weight: 800;
+        color: #ffffff;
+        display: block;
+        margin-bottom: 12px;
+    }
+    .footer .row.g-5 { --bs-gutter-y: 1.5rem; }
+    .footer-bottom { flex-direction: column; gap: 8px; text-align: center; }
+    .footer-redes { justify-content: flex-start; }
+    .footer-bottom-links { justify-content: center; }
 }
 </style>
 
@@ -47,14 +64,11 @@
     <div class="page-transition" id="page-transition"></div>
 
 <nav class="navbar navbar-expand-lg navbar-dark">
-    <div class="container-fluid px-5">
-
+    <div class="container-fluid px-4">
         <a class="navbar-brand" href="/">🌱 Keres</a>
-
         <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#menu">
             <span class="navbar-toggler-icon"></span>
         </button>
-
         <div class="collapse navbar-collapse" id="menu">
             <ul class="navbar-nav ms-auto align-items-center">
                 <li class="nav-item"><a class="nav-link" href="/">Inicio</a></li>
@@ -62,7 +76,6 @@
                 <li class="nav-item"><a class="nav-link" href="/suelos/">Suelos</a></li>
                 <li class="nav-item"><a class="nav-link" href="/galeria/">Galería</a></li>
                 <li class="nav-item"><a class="nav-link" href="/productividad/">Productividad</a></li>
-
                 {% if user.is_authenticated %}
                     <li class="nav-item ms-3">
                         <span class="text-white">Hola, {{ user.username }}</span>
@@ -70,9 +83,7 @@
                     <li class="nav-item ms-2">
                         <form action="{% url 'logout' %}" method="post">
                             {% csrf_token %}
-                            <button type="submit" class="btn btn-danger btn-sm">
-                                Cerrar sesión
-                            </button>
+                            <button type="submit" class="btn btn-danger btn-sm">Cerrar sesión</button>
                         </form>
                     </li>
                 {% else %}
@@ -91,11 +102,11 @@
 <!-- FOOTER -->
 <footer class="footer">
     <div class="container">
+        <div class="row g-4 g-md-5">
 
-        <div class="row g-5">
-
-            <div class="col-md-4">
-                <h4 class="footer-logo">🌿 Keres</h4>
+            <div class="col-12 col-md-4 footer-col-logo">
+                <span class="footer-logo-text footer-logo">🌿 Keres</span>
+                <hr style="border-color:rgba(255,255,255,0.2)">
                 <p class="footer-desc">
                     Herramienta digital para agricultores colombianos. Analiza suelos, cultivos y clima para mejorar tu producción.
                 </p>
@@ -120,7 +131,7 @@
                 </div>
             </div>
 
-            <div class="col-md-2">
+            <div class="col-6 col-md-2">
                 <h6 class="footer-heading">Plataforma</h6>
                 <ul class="footer-links">
                     <li><a href="/cultivos/">Cultivos</a></li>
@@ -130,7 +141,7 @@
                 </ul>
             </div>
 
-            <div class="col-md-2">
+            <div class="col-6 col-md-2">
                 <h6 class="footer-heading">Recursos</h6>
                 <ul class="footer-links">
                     <li><a href="#">Guías agrícolas</a></li>
@@ -140,7 +151,7 @@
                 </ul>
             </div>
 
-            <div class="col-md-4">
+            <div class="col-12 col-md-4">
                 <h6 class="footer-heading">Contacto</h6>
                 <ul class="footer-links">
                     <li>📍 Colombia</li>
@@ -154,7 +165,7 @@
         <hr class="footer-hr">
 
         <div class="footer-bottom">
-            <p>© 2025 Keres. Todos los derechos reservados.</p>
+            <p class="mb-0">© 2025 Keres. Todos los derechos reservados.</p>
             <div class="footer-bottom-links">
                 <a href="#">Privacidad</a>
                 <a href="#">Términos</a>
@@ -169,18 +180,11 @@
 <script src="https://unpkg.com/leaflet@1.9.4/dist/leaflet.js"></script>
 
 <script>
-AOS.init({
-    duration: 800,
-    easing: 'ease-out-cubic',
-    once: true,
-    offset: 80,
-});
+AOS.init({ duration: 800, easing: 'ease-out-cubic', once: true, offset: 80 });
 
 window.addEventListener("scroll", function() {
     let navbar = document.querySelector(".navbar");
-    navbar.style.background = window.scrollY > 50
-        ? "rgba(0,0,0,0.8)"
-        : "rgba(0,0,0,0.4)";
+    navbar.style.background = window.scrollY > 50 ? "rgba(0,0,0,0.8)" : "rgba(0,0,0,0.4)";
 });
 
 window.addEventListener("scroll", function() {
@@ -241,11 +245,9 @@ const coloresRegion = {
     "Región Insular":   "#ad1457",
 };
 
-// VARIABLE GLOBAL para departamento seleccionado
 let departamentoSeleccionado = null;
 
 if (document.getElementById('mapa-colombia')) {
-
     const mapa = L.map('mapa-colombia', {
         center: [4.5709, -74.2973],
         zoom: 5,
@@ -260,31 +262,20 @@ if (document.getElementById('mapa-colombia')) {
     fetch(GEOJSON_URL)
     .then(r => r.json())
     .then(data => {
-
         L.geoJSON(data, {
-
             style: feature => {
                 const nombre = feature.properties.NOMBRE_DPT || feature.properties.name || feature.properties.NAME_1;
                 const info = datosDepartamentos[nombre];
                 const color = info ? coloresRegion[info.region] : "#444";
-                return {
-                    fillColor: color,
-                    fillOpacity: 0.6,
-                    color: "#ffffff",
-                    weight: 1,
-                };
+                return { fillColor: color, fillOpacity: 0.6, color: "#ffffff", weight: 1 };
             },
-
             onEachFeature: (feature, layer) => {
-                console.log(feature.properties);
                 const nombre = feature.properties.NOMBRE_DPT;
                 const info = datosDepartamentos[nombre];
 
                 layer.on('mouseover', function() {
                     this.setStyle({ fillOpacity: 0.9, weight: 2 });
-                    if (!departamentoSeleccionado && info) {
-                        mostrarPanel(nombre, info);
-                    }
+                    if (!departamentoSeleccionado && info) mostrarPanel(nombre, info);
                 });
 
                 layer.on('mouseout', function() {
@@ -299,7 +290,6 @@ if (document.getElementById('mapa-colombia')) {
                     if (departamentoSeleccionado && departamentoSeleccionado !== this) {
                         departamentoSeleccionado.setStyle({ fillOpacity: 0.6, weight: 1, color: '#ffffff' });
                     }
-
                     if (departamentoSeleccionado === this) {
                         departamentoSeleccionado = null;
                         this.setStyle({ fillOpacity: 0.6, weight: 1, color: '#ffffff' });
@@ -312,7 +302,6 @@ if (document.getElementById('mapa-colombia')) {
                     }
                 });
             }
-
         }).addTo(mapa);
     })
     .catch(err => console.log('Error GeoJSON:', err));
@@ -323,10 +312,8 @@ function mostrarPanel(nombre, info) {
     document.getElementById('mapa-panel-info').style.display = 'block';
     document.getElementById('panel-depto').textContent = nombre;
     document.getElementById('panel-region').textContent = info.region;
-
     const contenedor = document.getElementById('panel-cultivos');
     contenedor.innerHTML = '';
-
     info.cultivos.forEach(c => {
         contenedor.innerHTML += `
             <div class="cultivo-barra">
@@ -344,40 +331,22 @@ function mostrarPanel(nombre, info) {
 </script>
 
 <script>
-// TRANSICIÓN ENTRE PÁGINAS
 const transition = document.getElementById('page-transition');
 
-// Animación de entrada
 window.addEventListener('load', () => {
     transition.classList.add('entrando');
-    setTimeout(() => {
-        transition.style.display = 'none';
-    }, 800);
+    setTimeout(() => { transition.style.display = 'none'; }, 800);
 });
 
-// Animación de salida al hacer clic en links
 document.querySelectorAll('a').forEach(link => {
     link.addEventListener('click', function(e) {
         const href = this.getAttribute('href');
-
-        // Solo aplicar a links internos
-        if (href && 
-            !href.startsWith('#') && 
-            !href.startsWith('http') && 
-            !href.startsWith('mailto') &&
-            !this.hasAttribute('target')) {
-
+        if (href && !href.startsWith('#') && !href.startsWith('http') && !href.startsWith('mailto') && !this.hasAttribute('target')) {
             e.preventDefault();
             transition.style.display = 'block';
             transition.classList.remove('entrando');
-
-            setTimeout(() => {
-                transition.classList.add('saliendo');
-            }, 10);
-
-            setTimeout(() => {
-                window.location.href = href;
-            }, 700);
+            setTimeout(() => { transition.classList.add('saliendo'); }, 10);
+            setTimeout(() => { window.location.href = href; }, 700);
         }
     });
 });

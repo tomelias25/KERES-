@@ -1,30 +1,879 @@
-{% extends 'base.html' %}
+{% load static %}
+<!DOCTYPE html>
+<html lang="es">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Keres — Acceso</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Instrument+Serif:ital@0;1&family=DM+Sans:opsz,wght@9..40,300;9..40,400;9..40,500;9..40,600;9..40,700&display=swap" rel="stylesheet">
 
-{% block contenido %}
+<style>
+/* =============================================
+   KERES — SISTEMA DE LOGIN PROFESIONAL
+   Estética: Editorial verde-tierra, refinado
+============================================= */
 
-<div class="container mt-5" style="max-width: 400px;">
+*, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
 
-    <h3 class="text-center mb-4">Iniciar sesión</h3>
+:root {
+  --v-dark:    #091f0a;
+  --v-deep:    #163318;
+  --v-mid:     #1e5c21;
+  --v-vivid:   #2d8031;
+  --v-bright:  #4caf52;
+  --v-neon:    #74d478;
+  --tierra:    #c4a05a;
+  --tierra-lt: #e8d5a3;
+  --crema:     #f7f3ec;
+  --paper:     #ffffff;
+  --g100:      #f2f0ee;
+  --g200:      #e2e0dd;
+  --g400:      #a09e9a;
+  --g700:      #3d3c3a;
+  --err:       #c62828;
+  --err-bg:    #fce8e8;
+  --ok:        #2e7d32;
+  --ok-bg:     #e8f5e9;
 
-    <form method="POST">
-        {% csrf_token %}
+  --r-sm:      8px;
+  --r-md:      14px;
+  --r-lg:      22px;
+  --r-xl:      30px;
+  --shadow:    0 28px 64px rgba(9,31,10,.17), 0 4px 14px rgba(9,31,10,.09);
+  --btn-glow:  0 8px 26px rgba(45,128,49,.42);
+  --ease:      cubic-bezier(.4,0,.2,1);
+}
 
-        <div class="mb-3">
-            <label>Usuario</label>
-            <input type="text" name="username" class="form-control">
+html, body {
+  height: 100%;
+  font-family: 'DM Sans', sans-serif;
+  background: var(--crema);
+  color: var(--g700);
+}
+
+/* ════════════════════════════════════════════
+   LAYOUT
+════════════════════════════════════════════ */
+.kl-wrap {
+  min-height: 100vh;
+  display: grid;
+  grid-template-columns: 46% 54%;
+}
+
+/* ════════════════════════════════════════════
+   PANEL VISUAL (izquierdo)
+════════════════════════════════════════════ */
+.kl-visual {
+  position: relative;
+  background: var(--v-dark);
+  display: flex;
+  flex-direction: column;
+  justify-content: space-between;
+  padding: 54px 60px;
+  overflow: hidden;
+}
+
+/* Gradiente de fondo */
+.kl-visual::before {
+  content:'';
+  position:absolute; inset:0; z-index:0;
+  background:
+    radial-gradient(ellipse 72% 58% at 10% 18%, rgba(45,128,49,.5)  0%, transparent 68%),
+    radial-gradient(ellipse 55% 65% at 88% 78%, rgba(22,51,24,.65)  0%, transparent 62%),
+    radial-gradient(ellipse 42% 38% at 60% 5%,  rgba(116,212,120,.1) 0%, transparent 56%);
+}
+
+/* Cuadrícula decorativa */
+.kl-visual::after {
+  content:'';
+  position:absolute; inset:0; z-index:0;
+  background-image:
+    linear-gradient(rgba(255,255,255,.025) 1px, transparent 1px),
+    linear-gradient(90deg, rgba(255,255,255,.025) 1px, transparent 1px);
+  background-size: 42px 42px;
+}
+
+/* Blobs */
+.kl-blob {
+  position:absolute; border-radius:50%;
+  background:var(--v-neon); z-index:1;
+}
+.kl-blob.b1 { width:420px; height:420px; top:-100px; right:-110px; opacity:.07; }
+.kl-blob.b2 { width:230px; height:230px; bottom: 48px; left:-60px;  opacity:.06; }
+.kl-blob.b3 { width:110px; height:110px; top:48%; right:48px;       opacity:.05; }
+
+/* Anillos */
+.kl-ring {
+  position:absolute; border-radius:50%;
+  border:1px solid rgba(255,255,255,.055); z-index:1;
+}
+.kl-ring.r1 { width:540px; height:540px; top:-200px; right:-200px; }
+.kl-ring.r2 { width:320px; height:320px; top:-70px;  right:-70px; }
+
+/* Hojas flotantes */
+.kl-leaf {
+  position:absolute; z-index:2;
+  opacity:.13; font-size:2rem;
+  animation: floatL 9s ease-in-out infinite;
+  user-select:none; pointer-events:none;
+}
+.kl-leaf:nth-child(1){ top:26%; left:9%;  animation-delay:0s; }
+.kl-leaf:nth-child(2){ top:62%; right:18%; font-size:1.4rem; animation-delay:-3.4s; }
+.kl-leaf:nth-child(3){ bottom:18%; left:32%; font-size:.95rem; animation-delay:-5.8s; }
+
+@keyframes floatL {
+  0%,100%{ transform:translateY(0) rotate(0deg); }
+  50%    { transform:translateY(-16px) rotate(9deg); }
+}
+
+/* Marca */
+.kl-brand {
+  position:relative; z-index:3;
+  display:flex; align-items:center; gap:13px;
+}
+.kl-logo-box {
+  width:46px; height:46px;
+  background:linear-gradient(140deg, var(--v-bright), var(--v-neon));
+  border-radius:12px;
+  display:flex; align-items:center; justify-content:center;
+  font-size:1.35rem;
+  box-shadow:0 4px 16px rgba(76,175,82,.38);
+}
+.kl-brand-name {
+  font-family:'Instrument Serif', serif;
+  font-size:1.75rem;
+  color:#fff;
+  letter-spacing:.025em;
+}
+
+/* Cuerpo central */
+.kl-visual-body {
+  position:relative; z-index:3;
+  flex:1; display:flex; flex-direction:column; justify-content:center;
+  padding:36px 0;
+}
+
+.kl-eyebrow {
+  font-size:.7rem; font-weight:600;
+  letter-spacing:.18em; text-transform:uppercase;
+  color:var(--tierra);
+  margin-bottom:20px;
+  display:flex; align-items:center; gap:10px;
+}
+.kl-eyebrow::before {
+  content:''; display:block;
+  width:26px; height:1px; background:var(--tierra);
+}
+
+.kl-headline {
+  font-family:'Instrument Serif', serif;
+  font-size:clamp(2rem, 3vw, 2.9rem);
+  color:#fff; line-height:1.16;
+  margin-bottom:22px;
+}
+.kl-headline em { font-style:italic; color:var(--v-neon); }
+
+.kl-desc {
+  font-size:.91rem; line-height:1.72;
+  color:rgba(255,255,255,.58);
+  max-width:340px; margin-bottom:46px;
+}
+
+/* Stats */
+.kl-stats { display:flex; gap:12px; }
+
+.kl-stat {
+  flex:1; text-align:center;
+  background:rgba(255,255,255,.055);
+  border:1px solid rgba(255,255,255,.09);
+  backdrop-filter:blur(12px);
+  border-radius:var(--r-md);
+  padding:16px 12px;
+  transition:all .28s var(--ease);
+}
+.kl-stat:hover {
+  background:rgba(255,255,255,.1);
+  transform:translateY(-3px);
+}
+.kl-stat-val {
+  display:block;
+  font-family:'Instrument Serif', serif;
+  font-size:1.55rem; color:#fff; line-height:1;
+  margin-bottom:5px;
+}
+.kl-stat-lbl {
+  font-size:.68rem; color:rgba(255,255,255,.48);
+  text-transform:uppercase; letter-spacing:.09em;
+}
+
+/* Footer visual */
+.kl-visual-foot {
+  position:relative; z-index:3;
+  font-size:.72rem; color:rgba(255,255,255,.28);
+}
+
+/* ════════════════════════════════════════════
+   PANEL FORMULARIO (derecho)
+════════════════════════════════════════════ */
+.kl-form-side {
+  display:flex; align-items:center; justify-content:center;
+  background:var(--crema);
+  padding:40px 24px;
+}
+
+.kl-card {
+  width:100%; max-width:460px;
+  background:var(--paper);
+  border-radius:var(--r-xl);
+  box-shadow:var(--shadow);
+  padding:44px 40px;
+  position:relative; overflow:hidden;
+}
+
+/* Línea superior decorativa */
+.kl-card::before {
+  content:'';
+  position:absolute; top:0; left:0; right:0; height:3px;
+  background:linear-gradient(90deg, var(--v-mid), var(--v-bright), var(--tierra));
+}
+
+/* ── TABS ── */
+.kl-tabs {
+  display:flex; gap:0;
+  background:var(--g100);
+  border-radius:var(--r-md); padding:5px;
+  margin-bottom:30px;
+}
+.kl-tab {
+  flex:1; padding:10px 8px;
+  border:none; background:transparent;
+  border-radius:var(--r-sm);
+  font-family:'DM Sans', sans-serif;
+  font-size:.875rem; font-weight:600;
+  color:var(--g400); cursor:pointer;
+  transition:all .25s var(--ease);
+}
+.kl-tab.active {
+  background:var(--paper);
+  color:var(--v-deep);
+  box-shadow:0 2px 8px rgba(0,0,0,.09);
+}
+
+/* ── ALERTAS ── */
+.kl-alert {
+  border-radius:var(--r-sm);
+  padding:12px 14px;
+  font-size:.84rem; line-height:1.45;
+  margin-bottom:22px;
+  display:flex; align-items:flex-start; gap:10px;
+}
+.kl-alert.error  { background:var(--err-bg); color:var(--err); border-left:3px solid var(--err); }
+.kl-alert.success{ background:var(--ok-bg);  color:var(--ok);  border-left:3px solid var(--ok); }
+
+/* ── CAMPOS ── */
+.kl-field { margin-bottom:18px; }
+
+.kl-label {
+  display:block;
+  font-size:.79rem; font-weight:600;
+  color:var(--g700); margin-bottom:7px;
+  letter-spacing:.01em;
+}
+
+.kl-input-wrap { position:relative; }
+
+.kl-icon {
+  position:absolute; left:14px; top:50%;
+  transform:translateY(-50%);
+  width:18px; height:18px;
+  color:var(--g400); pointer-events:none;
+  transition:color .22s var(--ease);
+}
+
+.kl-input {
+  width:100%;
+  padding:13px 44px;
+  border:2px solid var(--g200);
+  border-radius:var(--r-md);
+  font-family:'DM Sans', sans-serif;
+  font-size:.92rem; color:var(--g700);
+  background:var(--g100);
+  transition:all .24s var(--ease);
+}
+.kl-input::placeholder { color:var(--g400); }
+.kl-input:focus {
+  border-color:var(--v-vivid);
+  background:var(--paper);
+  box-shadow:0 0 0 4px rgba(45,128,49,.11);
+}
+.kl-input-wrap:focus-within .kl-icon { color:var(--v-vivid); }
+
+.kl-eye {
+  position:absolute; right:13px; top:50%;
+  transform:translateY(-50%);
+  background:none; border:none;
+  color:var(--g400); cursor:pointer;
+  display:flex; align-items:center; padding:2px;
+  transition:color .2s var(--ease);
+}
+.kl-eye:hover { color:var(--v-vivid); }
+
+/* Strength meter */
+.kl-strength {
+  margin-top:7px; display:flex;
+  gap:4px; align-items:center;
+}
+.kl-sb {
+  height:3px; flex:1; border-radius:99px;
+  background:var(--g200); transition:background .3s var(--ease);
+}
+.kl-sb.weak   { background:#ef5350; }
+.kl-sb.fair   { background:#ffa726; }
+.kl-sb.strong { background:var(--v-bright); }
+.kl-st-lbl {
+  font-size:.7rem; color:var(--g400);
+  min-width:52px; text-align:right;
+}
+
+/* Check row */
+.kl-check-row {
+  display:flex; justify-content:space-between;
+  align-items:center; margin-bottom:22px;
+}
+.kl-check {
+  display:flex; align-items:center; gap:8px;
+  font-size:.83rem; color:var(--g700); cursor:pointer; user-select:none;
+}
+.kl-check input[type=checkbox] {
+  appearance:none; width:17px; height:17px;
+  border:2px solid var(--g200); border-radius:5px;
+  cursor:pointer; transition:all .2s var(--ease); position:relative;
+}
+.kl-check input[type=checkbox]:checked {
+  background:var(--v-vivid); border-color:var(--v-vivid);
+}
+.kl-check input[type=checkbox]:checked::after {
+  content:''; position:absolute;
+  left:4px; top:1px; width:5px; height:9px;
+  border:2px solid #fff; border-top:none; border-left:none;
+  transform:rotate(45deg);
+}
+
+.kl-forgot {
+  background:none; border:none;
+  font-family:'DM Sans', sans-serif;
+  font-size:.83rem; font-weight:600;
+  color:var(--v-vivid); cursor:pointer; padding:0;
+  transition:all .2s var(--ease);
+}
+.kl-forgot:hover { color:var(--v-deep); text-decoration:underline; }
+
+/* Hint */
+.kl-hint {
+  font-size:.73rem; color:var(--g400);
+  margin-top:5px; display:flex;
+  align-items:center; gap:4px; line-height:1.4;
+}
+.kl-hint.err { color:var(--err); }
+
+/* ── BOTÓN PRINCIPAL ── */
+.kl-btn {
+  width:100%; padding:14px 20px;
+  background:linear-gradient(135deg, var(--v-deep) 0%, var(--v-vivid) 100%);
+  color:#fff; border:none;
+  border-radius:var(--r-md);
+  font-family:'DM Sans', sans-serif;
+  font-size:.96rem; font-weight:700;
+  cursor:pointer; letter-spacing:.01em;
+  display:flex; align-items:center; justify-content:center; gap:9px;
+  transition:all .28s var(--ease);
+  position:relative; overflow:hidden;
+}
+.kl-btn::after {
+  content:''; position:absolute; inset:0;
+  background:linear-gradient(135deg,rgba(255,255,255,.12) 0%,transparent 55%);
+  pointer-events:none;
+}
+.kl-btn:hover { transform:translateY(-2px); box-shadow:var(--btn-glow); }
+.kl-btn:active{ transform:translateY(0); box-shadow:none; }
+.kl-btn .bspinner {
+  display:none; width:18px; height:18px;
+  border:2px solid rgba(255,255,255,.35);
+  border-top-color:#fff; border-radius:50%;
+  animation:spin .7s linear infinite;
+}
+.kl-btn.loading .btxt { display:none; }
+.kl-btn.loading .bspinner { display:block; }
+@keyframes spin { to{ transform:rotate(360deg); } }
+
+/* ── MÉTODOS RECUPERACIÓN ── */
+.kl-methods {
+  display:grid; grid-template-columns:1fr 1fr;
+  gap:12px; margin-bottom:22px;
+}
+.kl-method {
+  padding:18px 12px;
+  border:2px solid var(--g200);
+  border-radius:var(--r-md);
+  background:var(--g100); cursor:pointer;
+  transition:all .26s var(--ease);
+  display:flex; flex-direction:column;
+  align-items:center; gap:9px;
+  font-family:'DM Sans', sans-serif;
+  font-size:.79rem; font-weight:600;
+  color:var(--g400); position:relative;
+}
+.kl-method:hover { border-color:var(--v-bright); color:var(--v-deep); background:var(--paper); }
+.kl-method.active { border-color:var(--v-vivid); background:var(--ok-bg); color:var(--v-deep); }
+
+.kl-method-icon {
+  width:44px; height:44px;
+  background:var(--paper); border-radius:10px;
+  display:flex; align-items:center; justify-content:center;
+  transition:all .22s var(--ease);
+}
+.kl-method.active .kl-method-icon { background:var(--v-vivid); color:#fff; }
+
+.kl-dot {
+  position:absolute; top:8px; right:8px;
+  width:16px; height:16px; border-radius:50%;
+  border:2px solid var(--g200);
+  transition:all .2s var(--ease);
+  display:flex; align-items:center; justify-content:center;
+}
+.kl-method.active .kl-dot {
+  background:var(--v-vivid); border-color:var(--v-vivid);
+}
+.kl-method.active .kl-dot::after {
+  content:''; width:5px; height:8px;
+  border:1.5px solid #fff; border-top:none; border-left:none;
+  transform:rotate(45deg) translate(-1px,-1px);
+}
+
+/* Section head (recuperar) */
+.kl-sec-head { margin-bottom:26px; }
+.kl-back {
+  display:inline-flex; align-items:center; gap:7px;
+  background:none; border:none;
+  font-family:'DM Sans', sans-serif;
+  font-size:.8rem; font-weight:600;
+  color:var(--v-vivid); cursor:pointer; padding:0;
+  margin-bottom:16px;
+  transition:all .22s var(--ease);
+}
+.kl-back:hover { color:var(--v-deep); gap:11px; }
+.kl-sec-title {
+  font-family:'Instrument Serif', serif;
+  font-size:1.48rem; color:var(--v-dark); margin-bottom:6px;
+}
+.kl-sec-sub { font-size:.84rem; color:var(--g400); line-height:1.5; }
+
+/* Términos */
+.kl-terms {
+  font-size:.76rem; color:var(--g400);
+  text-align:center; line-height:1.55;
+  margin-top:14px;
+}
+.kl-terms a { color:var(--v-vivid); text-decoration:none; font-weight:500; }
+.kl-terms a:hover { text-decoration:underline; }
+
+/* Panel animation */
+.kl-panel { animation:pIn .3s var(--ease); }
+@keyframes pIn {
+  from { opacity:0; transform:translateY(10px); }
+  to   { opacity:1; transform:translateY(0); }
+}
+
+/* ════════════════════════════════════════════
+   RESPONSIVE
+════════════════════════════════════════════ */
+@media (max-width: 920px) {
+  .kl-wrap { grid-template-columns:1fr; }
+  .kl-visual {
+    padding:32px 28px 44px;
+    min-height:unset;
+  }
+  .kl-visual-body { padding:18px 0; }
+  .kl-desc { display:none; }
+  .kl-headline { font-size:1.85rem; }
+  .kl-form-side { padding:28px 16px 44px; }
+  .kl-card { padding:32px 24px; }
+}
+@media (max-width:440px) {
+  .kl-card { padding:26px 16px; }
+  .kl-methods { grid-template-columns:1fr 1fr; gap:8px; }
+}
+</style>
+</head>
+
+<body>
+<div class="kl-wrap">
+
+  <!-- ════════════════════════════════════════
+       PANEL VISUAL
+  ════════════════════════════════════════ -->
+  <div class="kl-visual">
+    <div class="kl-blob b1"></div>
+    <div class="kl-blob b2"></div>
+    <div class="kl-blob b3"></div>
+    <div class="kl-ring r1"></div>
+    <div class="kl-ring r2"></div>
+    <span class="kl-leaf">🌿</span>
+    <span class="kl-leaf">🍃</span>
+    <span class="kl-leaf">🌱</span>
+
+    <div class="kl-brand">
+      <div class="kl-logo-box">🌿</div>
+      <span class="kl-brand-name">Keres</span>
+    </div>
+
+    <div class="kl-visual-body">
+      <p class="kl-eyebrow">Plataforma Agrícola</p>
+      <h1 class="kl-headline">
+        Cultiva con<br>
+        <em>inteligencia</em><br>
+        y precisión
+      </h1>
+      <p class="kl-desc">
+        Accede a datos agroclimáticos, gestiona cultivos y toma 
+        decisiones basadas en información real de las 32 regiones de Colombia.
+      </p>
+      <div class="kl-stats">
+        <div class="kl-stat">
+          <span class="kl-stat-val">+500</span>
+          <span class="kl-stat-lbl">Cultivos</span>
+        </div>
+        <div class="kl-stat">
+          <span class="kl-stat-val">32</span>
+          <span class="kl-stat-lbl">Departamentos</span>
+        </div>
+        <div class="kl-stat">
+          <span class="kl-stat-val">100%</span>
+          <span class="kl-stat-lbl">Gratuito</span>
+        </div>
+      </div>
+    </div>
+
+    <div class="kl-visual-foot">© 2025 Keres · Plataforma Agrícola Colombiana</div>
+  </div>
+
+  <!-- ════════════════════════════════════════
+       PANEL FORMULARIO
+  ════════════════════════════════════════ -->
+  <div class="kl-form-side">
+    <div class="kl-card">
+
+      <!-- TABS -->
+      <div class="kl-tabs" id="kl-tabs">
+        <button class="kl-tab active" onclick="showPanel('login',this)">Iniciar sesión</button>
+        <button class="kl-tab"        onclick="showPanel('registro',this)">Crear cuenta</button>
+      </div>
+
+      <!-- Alertas de Django -->
+      {% if form.errors %}
+      <div class="kl-alert error">
+        <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="12" cy="12" r="10"/><path d="M12 8v4M12 16h.01"/></svg>
+        <span>Usuario o contraseña incorrectos. Intenta de nuevo.</span>
+      </div>
+      {% endif %}
+
+      {% if messages %}{% for msg in messages %}
+      <div class="kl-alert {% if 'error' in msg.tags %}error{% else %}success{% endif %}">
+        <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="12" cy="12" r="10"/><path d="M12 8v4M12 16h.01"/></svg>
+        <span>{{ msg }}</span>
+      </div>
+      {% endfor %}{% endif %}
+
+      <!-- ══════════════════════════════════
+           PANEL: LOGIN
+      ══════════════════════════════════ -->
+      <div id="panel-login" class="kl-panel">
+        <form method="POST" action="{% url 'login' %}">
+          {% csrf_token %}
+
+          <div class="kl-field">
+            <label class="kl-label" for="id_username">Usuario</label>
+            <div class="kl-input-wrap">
+              <svg class="kl-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="12" cy="8" r="4"/><path d="M4 20c0-4 3.6-7 8-7s8 3 8 7"/></svg>
+              <input type="text" id="id_username" name="username" class="kl-input"
+                     placeholder="Tu nombre de usuario" autocomplete="username" required>
+            </div>
+          </div>
+
+          <div class="kl-field">
+            <label class="kl-label" for="id_password">Contraseña</label>
+            <div class="kl-input-wrap">
+              <svg class="kl-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><rect x="3" y="11" width="18" height="11" rx="2"/><path d="M7 11V7a5 5 0 0 1 10 0v4"/></svg>
+              <input type="password" id="id_password" name="password" class="kl-input"
+                     placeholder="Tu contraseña" autocomplete="current-password" required>
+              <button type="button" class="kl-eye" onclick="togglePass('id_password')" title="Mostrar/ocultar">
+                <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M1 12s4-8 11-8 11 8 11 8-4 8-11 8-11-8-11-8z"/><circle cx="12" cy="12" r="3"/></svg>
+              </button>
+            </div>
+          </div>
+
+          <div class="kl-check-row">
+            <label class="kl-check">
+              <input type="checkbox" name="remember">
+              <span>Recordarme</span>
+            </label>
+            <button type="button" class="kl-forgot" onclick="showPanel('recuperar')">
+              ¿Olvidaste tu contraseña?
+            </button>
+          </div>
+
+          <button type="submit" class="kl-btn" onclick="setLoading(this)">
+            <span class="btxt" style="display:flex;align-items:center;gap:8px;">
+              Ingresar
+              <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><path d="M5 12h14M12 5l7 7-7 7"/></svg>
+            </span>
+            <span class="bspinner"></span>
+          </button>
+        </form>
+      </div>
+
+      <!-- ══════════════════════════════════
+           PANEL: REGISTRO
+      ══════════════════════════════════ -->
+      <div id="panel-registro" class="kl-panel" style="display:none;">
+        <form method="POST" action="/registro/">
+          {% csrf_token %}
+
+          <div class="kl-field">
+            <label class="kl-label">Nombre completo</label>
+            <div class="kl-input-wrap">
+              <svg class="kl-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="12" cy="8" r="4"/><path d="M4 20c0-4 3.6-7 8-7s8 3 8 7"/></svg>
+              <input type="text" name="nombre" class="kl-input" placeholder="Ej. María González" required>
+            </div>
+          </div>
+
+          <div class="kl-field">
+            <label class="kl-label">Nombre de usuario</label>
+            <div class="kl-input-wrap">
+              <svg class="kl-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M20 21v-2a4 4 0 0 0-4-4H8a4 4 0 0 0-4 4v2"/><circle cx="12" cy="7" r="4"/></svg>
+              <input type="text" name="username" class="kl-input" placeholder="ej. maria.gonzalez"
+                     autocomplete="username" oninput="sanitizeUser(this)" required>
+            </div>
+            <p class="kl-hint">
+              <svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="12" cy="12" r="10"/><path d="M12 16v-4M12 8h.01"/></svg>
+              Solo letras, números, guiones y puntos
+            </p>
+          </div>
+
+          <div class="kl-field">
+            <label class="kl-label">Correo electrónico</label>
+            <div class="kl-input-wrap">
+              <svg class="kl-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><rect x="2" y="4" width="20" height="16" rx="2"/><path d="M2 8l10 6 10-6"/></svg>
+              <input type="email" name="email" class="kl-input" placeholder="tu@correo.com" required>
+            </div>
+          </div>
+
+          <div class="kl-field">
+            <label class="kl-label">Contraseña</label>
+            <div class="kl-input-wrap">
+              <svg class="kl-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><rect x="3" y="11" width="18" height="11" rx="2"/><path d="M7 11V7a5 5 0 0 1 10 0v4"/></svg>
+              <input type="password" name="password1" id="pr1" class="kl-input"
+                     placeholder="Mínimo 8 caracteres" oninput="evalStr(this.value)" required>
+              <button type="button" class="kl-eye" onclick="togglePass('pr1')">
+                <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M1 12s4-8 11-8 11 8 11 8-4 8-11 8-11-8-11-8z"/><circle cx="12" cy="12" r="3"/></svg>
+              </button>
+            </div>
+            <div class="kl-strength">
+              <div class="kl-sb" id="s1"></div>
+              <div class="kl-sb" id="s2"></div>
+              <div class="kl-sb" id="s3"></div>
+              <div class="kl-sb" id="s4"></div>
+              <span class="kl-st-lbl" id="slbl"></span>
+            </div>
+          </div>
+
+          <div class="kl-field">
+            <label class="kl-label">Confirmar contraseña</label>
+            <div class="kl-input-wrap">
+              <svg class="kl-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><rect x="3" y="11" width="18" height="11" rx="2"/><path d="M7 11V7a5 5 0 0 1 10 0v4"/></svg>
+              <input type="password" name="password2" id="pr2" class="kl-input"
+                     placeholder="Repite tu contraseña" oninput="chkMatch()" required>
+              <button type="button" class="kl-eye" onclick="togglePass('pr2')">
+                <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M1 12s4-8 11-8 11 8 11 8-4 8-11 8-11-8-11-8z"/><circle cx="12" cy="12" r="3"/></svg>
+              </button>
+            </div>
+            <p class="kl-hint err" id="hint-match" style="display:none;">
+              <svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="12" cy="12" r="10"/><path d="M15 9l-6 6M9 9l6 6"/></svg>
+              Las contraseñas no coinciden
+            </p>
+          </div>
+
+          <button type="submit" class="kl-btn" onclick="setLoading(this)">
+            <span class="btxt" style="display:flex;align-items:center;gap:8px;">
+              Crear mi cuenta
+              <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><path d="M5 12h14M12 5l7 7-7 7"/></svg>
+            </span>
+            <span class="bspinner"></span>
+          </button>
+
+          <p class="kl-terms">
+            Al registrarte aceptas los
+            <a href="#">Términos de uso</a> y la
+            <a href="#">Política de privacidad</a>
+          </p>
+        </form>
+      </div>
+
+      <!-- ══════════════════════════════════
+           PANEL: RECUPERAR CONTRASEÑA
+      ══════════════════════════════════ -->
+      <div id="panel-recuperar" class="kl-panel" style="display:none;">
+
+        <div class="kl-sec-head">
+          <button class="kl-back" onclick="showPanel('login')">
+            <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><path d="M19 12H5M12 19l-7-7 7-7"/></svg>
+            Volver al inicio de sesión
+          </button>
+          <h2 class="kl-sec-title">Recuperar acceso</h2>
+          <p class="kl-sec-sub">Elige cómo recibir tu código de recuperación</p>
         </div>
 
-        <div class="mb-3">
-            <label>Contraseña</label>
-            <input type="password" name="password" class="form-control">
+        <!-- Métodos de recuperación -->
+        <div class="kl-methods">
+          <button type="button" class="kl-method active" id="m-gmail" onclick="selMetodo('gmail')">
+            <div class="kl-dot"></div>
+            <div class="kl-method-icon">
+              <svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8"><rect x="2" y="4" width="20" height="16" rx="2"/><path d="M2 8l10 6 10-6"/></svg>
+            </div>
+            <span>Gmail</span>
+          </button>
+          <button type="button" class="kl-method" id="m-sms" onclick="selMetodo('sms')">
+            <div class="kl-dot"></div>
+            <div class="kl-method-icon">
+              <svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8"><rect x="5" y="2" width="14" height="20" rx="3"/><path d="M9 18h6"/><rect x="8" y="6" width="8" height="5" rx="1"/></svg>
+            </div>
+            <span>SMS</span>
+          </button>
         </div>
 
-        <button class="btn btn-success w-100">
-            Ingresar
-        </button>
+        <form method="POST" action="/recuperar-contrasena/">
+          {% csrf_token %}
+          <input type="hidden" name="metodo" id="metodo-val" value="gmail">
 
-    </form>
+          <!-- Campo email -->
+          <div class="kl-field" id="campo-gmail">
+            <label class="kl-label">Correo Gmail registrado</label>
+            <div class="kl-input-wrap">
+              <svg class="kl-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><rect x="2" y="4" width="20" height="16" rx="2"/><path d="M2 8l10 6 10-6"/></svg>
+              <input type="email" name="email" class="kl-input" placeholder="tu@gmail.com">
+            </div>
+            <p class="kl-hint">
+              <svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="12" cy="12" r="10"/><path d="M12 16v-4M12 8h.01"/></svg>
+              Recibirás un enlace seguro de recuperación
+            </p>
+          </div>
 
-</div>
+          <!-- Campo SMS -->
+          <div class="kl-field" id="campo-sms" style="display:none;">
+            <label class="kl-label">Número de celular</label>
+            <div class="kl-input-wrap">
+              <svg class="kl-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><rect x="5" y="2" width="14" height="20" rx="3"/><path d="M9 18h6"/></svg>
+              <input type="tel" name="telefono" class="kl-input" placeholder="+57 300 000 0000">
+            </div>
+            <p class="kl-hint">
+              <svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="12" cy="12" r="10"/><path d="M12 16v-4M12 8h.01"/></svg>
+              Enviaremos un código de 6 dígitos por mensaje de texto
+            </p>
+          </div>
 
-{% endblock %}
+          <button type="submit" class="kl-btn" onclick="setLoading(this)">
+            <span class="btxt" style="display:flex;align-items:center;gap:8px;">
+              Enviar código de recuperación
+              <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><line x1="22" y1="2" x2="11" y2="13"/><polygon points="22 2 15 22 11 13 2 9 22 2"/></svg>
+            </span>
+            <span class="bspinner"></span>
+          </button>
+        </form>
+      </div>
+
+    </div><!-- /kl-card -->
+  </div><!-- /kl-form-side -->
+
+</div><!-- /kl-wrap -->
+
+<script>
+/* ── PANEL SWITCHER ──────────────────── */
+function showPanel(name, tabEl) {
+  ['login','registro','recuperar'].forEach(p => {
+    const el = document.getElementById('panel-'+p);
+    if (el) el.style.display = 'none';
+  });
+  const target = document.getElementById('panel-'+name);
+  if (target) {
+    target.style.display = 'block';
+    target.classList.remove('kl-panel');
+    void target.offsetWidth;
+    target.classList.add('kl-panel');
+  }
+  if (name === 'login' || name === 'registro') {
+    document.querySelectorAll('.kl-tab').forEach(t => t.classList.remove('active'));
+    if (tabEl) { tabEl.classList.add('active'); }
+    else { document.querySelectorAll('.kl-tab')[name==='login'?0:1].classList.add('active'); }
+  }
+}
+
+/* ── TOGGLE PASSWORD ─────────────────── */
+function togglePass(id) {
+  const i = document.getElementById(id);
+  i.type = i.type === 'password' ? 'text' : 'password';
+}
+
+/* ── MÉTODO RECUPERACIÓN ─────────────── */
+function selMetodo(m) {
+  ['gmail','sms'].forEach(x => {
+    document.getElementById('m-'+x).classList.toggle('active', x === m);
+  });
+  document.getElementById('metodo-val').value = m;
+  document.getElementById('campo-gmail').style.display = m==='gmail' ? 'block' : 'none';
+  document.getElementById('campo-sms').style.display   = m==='sms'   ? 'block' : 'none';
+}
+
+/* ── FUERZA CONTRASEÑA ───────────────── */
+function evalStr(v) {
+  let s = 0;
+  if (v.length >= 8)           s++;
+  if (/[A-Z]/.test(v))         s++;
+  if (/[0-9]/.test(v))         s++;
+  if (/[^A-Za-z0-9]/.test(v))  s++;
+  const bars  = ['s1','s2','s3','s4'];
+  const lbls  = ['','Débil','Regular','Buena','Fuerte'];
+  const clses = ['','weak','fair','fair','strong'];
+  bars.forEach((id,i) => {
+    const b = document.getElementById(id);
+    b.className = 'kl-sb';
+    if (i < s) b.classList.add(clses[s]);
+  });
+  document.getElementById('slbl').textContent = v.length ? lbls[s] : '';
+}
+
+/* ── COINCIDENCIA ────────────────────── */
+function chkMatch() {
+  const p1 = document.getElementById('pr1').value;
+  const p2 = document.getElementById('pr2').value;
+  document.getElementById('hint-match').style.display = (p2 && p1!==p2) ? 'flex' : 'none';
+}
+
+/* ── SANITIZAR USERNAME ──────────────── */
+function sanitizeUser(inp) {
+  inp.value = inp.value.replace(/[^a-zA-Z0-9._-]/g,'');
+}
+
+/* ── LOADING BUTTON ──────────────────── */
+function setLoading(btn) { setTimeout(() => btn.classList.add('loading'), 0); }
+
+/* ── ACTIVAR TAB POR URL ─────────────── */
+(function(){
+  const p = new URLSearchParams(window.location.search);
+  if (p.get('tab') === 'registro')
+    showPanel('registro', document.querySelectorAll('.kl-tab')[1]);
+})();
+</script>
+</body>
+</html>
